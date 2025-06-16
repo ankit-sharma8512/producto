@@ -1,0 +1,131 @@
+name: producto
+services:
+  api:
+    container_name: api
+    build:
+      context: ../
+      dockerfile: docker/services/api/Dockerfile
+    networks:
+      - producto
+    depends_on:
+      - zookeeper
+    environment:
+      - SERVICE=api
+      - HOST=api
+      - PORT=8000
+      - ZOOKEEPER_HOST=${ZOOKEEPER_HOST:?}
+
+  product:
+    container_name: product
+    build:
+      context: ../
+      dockerfile: docker/services/product/Dockerfile
+    networks:
+      - producto
+    depends_on:
+      - zookeeper
+      - kafka
+      - productdb
+      - productcache
+    environment:
+      - SERVICE=product
+      - HOST=product
+      - PORT=8000
+      - ZOOKEEPER_HOST=${ZOOKEEPER_HOST:?}
+      - ZOOKEEPER_NODE=/service/product
+      - DB_HOST=${PRODUCT_DB_HOST:?}
+      - DB_USER=${PRODUCT_DB_USER:?}
+      - DB_PASSWORD=${PRODUCT_DB_PASSWORD:?}
+      - DB_NAME=${PRODUCT_DB_NAME:?}
+      - PRODUCT_CACHE_HOST=${PRODUCT_CACHE_HOST:?}
+      - KAFKA_SEED_BROKER=${KAFKA_SEED_BROKER:?}
+
+  productdb:
+    container_name: productdb
+    image: postgres:17
+    restart: always
+    shm_size: 128mb
+    networks:
+      - producto
+    environment:
+      - POSTGRES_DB=${PRODUCT_DB_NAME:?}
+      - POSTGRES_USER=${PRODUCT_DB_USER:?}
+      - POSTGRES_PASSWORD=${PRODUCT_DB_PASSWORD:?}
+    volumes:
+      - productdb-data:/var/lib/postgresql/data
+  
+  productdbmigrate:
+    profiles:
+      - migrate
+    container_name: productdbmigrate
+    build:
+      context: ../
+      dockerfile: docker/database/productdbmigrate/Dockerfile
+    networks:
+      - producto
+    depends_on:
+      - productdb
+    environment:
+      - DB_HOST=${PRODUCT_DB_HOST:?}
+      - DB_USER=${PRODUCT_DB_USER:?}
+      - DB_PASSWORD=${PRODUCT_DB_PASSWORD:?}
+      - DB_NAME=${PRODUCT_DB_NAME:?}
+
+  productcache:
+    image: redis:7-alpine
+    container_name: productcache
+    networks:
+      - producto
+  
+  kafka:
+    image: apache/kafka:latest
+    container_name: kafka
+    networks:
+      - producto
+    environment:
+      - KAFKA_NODE_ID=1
+      - KAFKA_PROCESS_ROLES=broker,controller
+      - KAFKA_CONTROLLER_QUORUM_VOTERS=1@localhost:9093
+      - KAFKA_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+      - KAFKA_NUM_PARTITIONS=1
+    volumes:
+      - kafka-data:/var/lib/kafka/data
+
+  nginx:
+    container_name: nginx
+    build:
+      context: ../
+      dockerfile: docker/tools/nginx/Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - product
+    networks:
+      - producto
+
+  zookeeper:
+    container_name: zookeeper
+    restart: always
+    build:
+      context: ../
+      dockerfile: docker/tools/zookeeper/Dockerfile
+    networks:
+      - producto
+    environment:
+      - ZOO_LOG4J_PROP="${ZOOKEEPER_LOG_MODE:-ERROR},ROLLINGFILE"
+      - ZOO_TICK_TIME=${ZOO_TICK_TIME}
+    # volumes:
+    #  - zookeeper-data:/data
+
+networks:
+  producto:
+    driver: bridge
+
+volumes:
+  # zookeeper-data:
+  productdb-data:
+  kafka-data:

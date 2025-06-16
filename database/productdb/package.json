@@ -1,0 +1,16 @@
+{
+  "name": "productdb",
+  "version": "1.0.0",
+  "main": "knexfile.js",
+  "scripts": {
+    "migrate": "knex migrate:latest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "knex": "^3.1.0",
+    "pg": "^8.16.0"
+  }
+}

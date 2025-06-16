@@ -1,0 +1,21 @@
+name: producto
+
+services:
+  api:
+    command: ["npm", "run", "dev"]
+    volumes:
+      - ../services/api:/producto/services/api
+      - ../services/api/node_modules:/producto/services/api/node_modules
+      - ../tools:/producto/tools
+      - ../tools/node_modules:/producto/tools/node_modules
+
+  product:
+    command: ["npm", "run", "dev"]
+    volumes:
+      - ../services/product:/producto/services/product
+      - ../services/product/node_modules:/producto/services/product/node_modules
+      - ../tools:/producto/tools
+      - ../tools/node_modules:/producto/tools/node_modules
+      - ../database/productdb:/producto/database/productdb
+      - ../database/node_modules:/producto/database/node_modules
+
