@@ -95,6 +95,31 @@ services:
     volumes:
       - kafka-data:/var/lib/kafka/data
 
+  elasticsync:
+    container_name: elasticsync
+    build:
+      context: ../
+      dockerfile: docker/services/elasticsync/Dockerfile
+    networks:
+      - producto
+    environment:
+      - SERVICE=elasticsync
+      - KAFKA_SEED_BROKER=${KAFKA_SEED_BROKER:?}
+      - ZOOKEEPER_HOST=${ZOOKEEPER_HOST:?}
+      - ELASTIC_HOST=${ELASTIC_HOST:?}
+
+  elasticsearch:
+    container_name: elasticsearch
+    image: elasticsearch:8.18.2
+    networks:
+      - producto
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    volumes:
+      - elastic-data:/usr/share/elasticsearch/data
+
   nginx:
     container_name: nginx
     build:
@@ -129,3 +154,4 @@ volumes:
   # zookeeper-data:
   productdb-data:
   kafka-data:
+  elastic-data:

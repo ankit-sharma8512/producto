@@ -44,7 +44,7 @@ class ProductController {
             // check cache first
             const cached  = await Cache.get(DETAIL_KEY(id));
             if(cached)
-                return res.json(cached);
+                return res.json(cached?.[0] || cached);
 
             const results = await product_model.getProduct(id);
 

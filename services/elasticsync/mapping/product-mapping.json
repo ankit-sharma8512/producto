@@ -1,0 +1,25 @@
+{
+    "properties" : {
+        "id"        : {
+            "type" : "keyword"
+        },
+        "name"      : {
+            "type" : "text",
+            "fields" : {
+                "raw" : { "type":"keyword" }
+            }
+        },
+        "brand"     : {
+            "type" : "keyword"
+        },
+        "hsn"      : {
+            "type" : "keyword",
+            "fields" : {
+                "raw" : { "type":"text" }
+            }
+        },
+        "createdAt" : {
+            "type" : "date"
+        }
+    }
+}

@@ -19,3 +19,10 @@ services:
       - ../database/productdb:/producto/database/productdb
       - ../database/node_modules:/producto/database/node_modules
 
+  elasticsync:
+    command: ["npm", "run", "dev"]
+    volumes:
+      - ../services/elasticsync:/producto/services/elasticsync
+      - ../services/elasticsync/node_modules:/producto/services/elasticsync/node_modules
+      - ../database/elasticsearch:/producto/database/elasticsearch
+      - ../database/node_modules:/producto/database/node_modules
