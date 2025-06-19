@@ -2,17 +2,24 @@ const product_model = require("../../../database/productdb/models/product");
 const HTTPError     = require("../utils/error");
 const Cache         = require("../../../tools/cache/cache");
 const Producer      = require("../../../tools/kafka/producer");
+const ElasticEngine = require("../../../database/elasticsearch/src/elastic-engine");
+
+const {makeQuery}   = require("../utils/search");
 
 const DETAIL_KEY    = (id) => "product:detail:"+id;
 const PRODUCT_TOPIC = 'product-changes';
+const INDEX_NAME    = 'products';
 
 class ProductController {
     static async list(req, res) {
         try {
-            const results = await product_model.listProducts()
-            return res.json(results);
+            const query = makeQuery(req.query?.search || "", req.query.page || 1, req.query.limit || 10);
+            const results = await ElasticEngine.getDocs(INDEX_NAME, query);
+
+            return res.json(results?.hits?.hits.map(d => d._source));
         }
         catch(err) {
+            console.log(err)
             const error = err instanceof HTTPError ? err.error : new HTTPError().error;
             return res.status(error.status).json(error);
         }

@@ -1,9 +1,10 @@
 // register for zookeeper
-const ZRegister = require("../../tools/zookeeper/register");
-const Config    = require("../../tools/config/config");
-const App       = require("./src/app");
-const Cache     = require("../../tools/cache/cache");
-const Producer  = require("../../tools/kafka/producer");
+const ZRegister     = require("../../tools/zookeeper/register");
+const Config        = require("../../tools/config/config");
+const App           = require("./src/app");
+const Cache         = require("../../tools/cache/cache");
+const Producer      = require("../../tools/kafka/producer");
+const ElasticEngine = require("../../database/elasticsearch/src/elastic-engine");
 
 let znode;
 const CONFIG_PATH = "/producto/services/product/config.json";
@@ -47,6 +48,7 @@ async function main() {
     register();
     await Cache.initiate(Config.get("cache-host"));
     await Producer.initiate(Config.get("kafka-broker"))
+    await ElasticEngine.initialize(Config.get('elastic-host'))
 
     // Express app
     const app = new App();

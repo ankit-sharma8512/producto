@@ -39,6 +39,7 @@ services:
       - DB_NAME=${PRODUCT_DB_NAME:?}
       - PRODUCT_CACHE_HOST=${PRODUCT_CACHE_HOST:?}
       - KAFKA_SEED_BROKER=${KAFKA_SEED_BROKER:?}
+      - ELASTIC_HOST=${ELASTIC_HOST:?}
 
   productdb:
     container_name: productdb

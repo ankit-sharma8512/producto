@@ -32,7 +32,8 @@ async function main() {
         await Consumer.subscribe(topic, { fromBeginning:true });
     });
 
-    await Consumer.run(handleMessage, false);
+    // implement a dead letter queue here
+    await Consumer.run(handleMessage, true);
 }
 
 process.on('SIGINT', shutdown);

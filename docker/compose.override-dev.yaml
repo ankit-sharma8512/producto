@@ -17,7 +17,7 @@ services:
       - ../tools:/producto/tools
       - ../tools/node_modules:/producto/tools/node_modules
       - ../database/productdb:/producto/database/productdb
-      - ../database/node_modules:/producto/database/node_modules
+      - ../database/elasticsearch:/producto/database/elasticsearch
 
   elasticsync:
     command: ["npm", "run", "dev"]
@@ -25,4 +25,3 @@ services:
       - ../services/elasticsync:/producto/services/elasticsync
       - ../services/elasticsync/node_modules:/producto/services/elasticsync/node_modules
       - ../database/elasticsearch:/producto/database/elasticsearch
-      - ../database/node_modules:/producto/database/node_modules

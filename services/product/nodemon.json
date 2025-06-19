@@ -2,7 +2,7 @@
   "watch": [
     ".",
     "../../tools",
-    "../../database/productdb"
+    "../../database"
   ],
   "ext": "js,json",
   "exec": "node index.js"

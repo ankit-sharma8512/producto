@@ -8,8 +8,8 @@ methods.ping = async function () {
     return res.data;
 }
 
-methods.list = async function () {
-    const res = await client.get(`/list`);
+methods.list = async function (query={}) {
+    const res = await client.get(`/list?${new URLSearchParams(query).toString()}`);
     return res;
 }
 

@@ -5,5 +5,6 @@
     "zookeeper-host" : "${ZOOKEEPER_HOST}",
     "zookeeper-node" : "${ZOOKEEPER_NODE}",
     "cache-host"     : "${PRODUCT_CACHE_HOST}",
-    "kafka-broker"   : "${KAFKA_SEED_BROKER}"
+    "kafka-broker"   : "${KAFKA_SEED_BROKER}",
+    "elastic-host"   : "${ELASTIC_HOST}"
 }

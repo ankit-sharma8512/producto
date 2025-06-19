@@ -12,6 +12,10 @@ WORKDIR /producto/database/productdb
 COPY database/productdb .
 RUN npm i
 
+WORKDIR /producto/database/elasticsearch
+COPY database/elasticsearch .
+RUN npm i
+
 # Build required tools dependencies
 WORKDIR /producto/tools
 COPY tools/package*.json .

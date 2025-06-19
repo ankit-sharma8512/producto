@@ -4,7 +4,7 @@ const product   = require("../remote/product_service");
 class ProductController {
     static async getProducts(req, res) {
         try {
-            const result = await product.list();
+            const result = await product.list(req.query);
             return res.status(200).json(result);
         }
         catch(err) {
