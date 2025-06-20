@@ -1,0 +1,32 @@
+{
+  "name": "producto",
+  "version": "1.0.0",
+  "description": "The one and only you need for your distributer business",
+  "private": "true",
+  "scripts": {
+    "start"     : "docker compose -f docker/compose.yaml up",
+    "setup"     : "docker compose -f docker/compose.yaml up setup",
+    "build"     : "docker compose -f docker/compose.yaml build",
+    "down"      : "docker compose -f docker/compose.yaml down",
+
+    "dev"       : "docker compose -f docker/compose.dev.yaml up",
+    "dev-setup" : "docker compose -f docker/compose.dev.yaml up setup",
+    "dev-build" : "docker compose -f docker/compose.dev.yaml build",
+    "dev-down"  : "docker compose -f docker/compose.dev.yaml down"
+  },
+  "workspaces":[
+    "database/*",
+    "services/*",
+    "tools/"
+  ],
+  "repository": {
+    "type": "git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ankit-sharma8512/producto/issues"
+  },
+  "homepage": "https://github.com/ankit-sharma8512/producto#readme"
+}

@@ -1,0 +1,8 @@
+{
+    "host"           : "${HOST}",
+    "port"           : "${PORT}",
+    "service"        : "${SERVICE}",
+    "zookeeper-host" : "${ZOOKEEPER_HOST}",
+    "zookeeper-node" : "${ZOOKEEPER_NODE}",
+    "kafka-broker"   : "${KAFKA_SEED_BROKER}"
+}

@@ -4,7 +4,7 @@ services:
     container_name: api
     build:
       context: ../
-      dockerfile: docker/services/api/Dockerfile
+      dockerfile: services/api/Dockerfile
     networks:
       - producto
     depends_on:
@@ -19,14 +19,14 @@ services:
     container_name: product
     build:
       context: ../
-      dockerfile: docker/services/product/Dockerfile
+      dockerfile: services/product/Dockerfile
     networks:
       - producto
     depends_on:
-      - zookeeper
-      - kafka
       - productdb
       - productcache
+      - zookeeper
+      - kafka
     environment:
       - SERVICE=product
       - HOST=product
@@ -39,6 +39,19 @@ services:
       - DB_NAME=${PRODUCT_DB_NAME:?}
       - PRODUCT_CACHE_HOST=${PRODUCT_CACHE_HOST:?}
       - KAFKA_SEED_BROKER=${KAFKA_SEED_BROKER:?}
+      - ELASTIC_HOST=${ELASTIC_HOST:?}
+
+  elasticsync:
+    container_name: elasticsync
+    build:
+      context: ../
+      dockerfile: services/elasticsync/Dockerfile
+    networks:
+      - producto
+    environment:
+      - SERVICE=elasticsync
+      - KAFKA_SEED_BROKER=${KAFKA_SEED_BROKER:?}
+      - ZOOKEEPER_HOST=${ZOOKEEPER_HOST:?}
       - ELASTIC_HOST=${ELASTIC_HOST:?}
 
   productdb:
@@ -55,29 +68,34 @@ services:
     volumes:
       - productdb-data:/var/lib/postgresql/data
   
-  productdbmigrate:
-    profiles:
-      - migrate
-    container_name: productdbmigrate
-    build:
-      context: ../
-      dockerfile: docker/database/productdbmigrate/Dockerfile
+  elasticsearch:
+    container_name: elasticsearch
+    image: elasticsearch:8.18.2
     networks:
       - producto
-    depends_on:
-      - productdb
     environment:
-      - DB_HOST=${PRODUCT_DB_HOST:?}
-      - DB_USER=${PRODUCT_DB_USER:?}
-      - DB_PASSWORD=${PRODUCT_DB_PASSWORD:?}
-      - DB_NAME=${PRODUCT_DB_NAME:?}
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    volumes:
+      - elastic-data:/usr/share/elasticsearch/data
 
   productcache:
     image: redis:7-alpine
     container_name: productcache
     networks:
       - producto
-  
+
+  zookeeper:
+    container_name: zookeeper
+    image: zookeeper:3.8.4
+    restart: always
+    networks:
+      - producto
+    environment:
+      - ZOO_LOG4J_PROP="${ZOOKEEPER_LOG_MODE:-ERROR},ROLLINGFILE"
+      - ZOO_TICK_TIME=${ZOO_TICK_TIME}
+
   kafka:
     image: apache/kafka:latest
     container_name: kafka
@@ -96,63 +114,44 @@ services:
     volumes:
       - kafka-data:/var/lib/kafka/data
 
-  elasticsync:
-    container_name: elasticsync
-    build:
-      context: ../
-      dockerfile: docker/services/elasticsync/Dockerfile
-    networks:
-      - producto
-    environment:
-      - SERVICE=elasticsync
-      - KAFKA_SEED_BROKER=${KAFKA_SEED_BROKER:?}
-      - ZOOKEEPER_HOST=${ZOOKEEPER_HOST:?}
-      - ELASTIC_HOST=${ELASTIC_HOST:?}
-
-  elasticsearch:
-    container_name: elasticsearch
-    image: elasticsearch:8.18.2
-    networks:
-      - producto
-    environment:
-      - discovery.type=single-node
-      - xpack.security.enabled=false
-      - ES_JAVA_OPTS=-Xms512m -Xmx512m
-    volumes:
-      - elastic-data:/usr/share/elasticsearch/data
-
   nginx:
     container_name: nginx
     build:
       context: ../
-      dockerfile: docker/tools/nginx/Dockerfile
+      dockerfile: tools/nginx/Dockerfile
     ports:
       - "80:80"
     depends_on:
-      - product
+      - api
     networks:
       - producto
 
-  zookeeper:
-    container_name: zookeeper
-    restart: always
+  setup:
+    container_name: setup
+    profiles:
+      - setup
     build:
       context: ../
-      dockerfile: docker/tools/zookeeper/Dockerfile
+      dockerfile: tools/setup/Dockerfile
+    depends_on:
+      - productdb
+      - elasticsearch
+      - kafka
     networks:
       - producto
     environment:
-      - ZOO_LOG4J_PROP="${ZOOKEEPER_LOG_MODE:-ERROR},ROLLINGFILE"
-      - ZOO_TICK_TIME=${ZOO_TICK_TIME}
-    # volumes:
-    #  - zookeeper-data:/data
+      - KAFKA_SEED_BROKER=${KAFKA_SEED_BROKER:?}
+      - ELASTIC_HOST=${ELASTIC_HOST:?}
+      - DB_HOST=${PRODUCT_DB_HOST:?}
+      - DB_USER=${PRODUCT_DB_USER:?}
+      - DB_PASSWORD=${PRODUCT_DB_PASSWORD:?}
+      - DB_NAME=${PRODUCT_DB_NAME:?}
 
 networks:
   producto:
     driver: bridge
 
 volumes:
-  # zookeeper-data:
   productdb-data:
   kafka-data:
   elastic-data:

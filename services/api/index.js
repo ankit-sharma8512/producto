@@ -13,7 +13,9 @@ async function main() {
     Config.read(CONFIG_PATH);
 
     // Initiate service discovery
-    ServiceManager.initiate(SERVICES);
+    ServiceManager.initiate(SERVICES).catch(err => {
+        console.log("Failed to connect to zookeeper. wont be able to make service requests");
+    });
 
     // Express app
     const app = new App();

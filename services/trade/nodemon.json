@@ -1,0 +1,9 @@
+{
+  "watch": [
+    ".",
+    "../../tools",
+    "../../database"
+  ],
+  "ext": "js,json",
+  "exec": "node index.js"
+}
