@@ -7,23 +7,6 @@ class Admin {
     static #client;
     static #admin;
 
-    // static async connect() {
-    //     let retries = RETRIES;
-
-    //     while(retries > 0) {
-    //         try {
-    //             await this.#producer.connect();
-    //             return
-    //         }
-    //         catch(err) {
-    //             retries--;
-    //             if(retries == 0)
-    //                 throw new Error("Failed to connect to kafka");
-    //             await (new Promise((resolve) => setTimeout(resolve, RETRY_GAP)));
-    //         }
-    //     }
-    // }
-
     static async initiate(broker) {
         try {
             this.#client = new Kafka({
@@ -51,6 +34,11 @@ class Admin {
 
     static async createTopics(topics) {
         const res = await this.#admin.createTopics({ topics });
+        return res;
+    }
+
+    static async listTopics() {
+        const res = await this.#admin.listTopics();
         return res;
     }
 }

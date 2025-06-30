@@ -4,5 +4,6 @@
     "../../tools"
   ],
   "ext": "js,json",
-  "exec": "node index.js"
+  "exec": "node index.js",
+  "ignore" : ["../../tools/flink/venv"]
 }

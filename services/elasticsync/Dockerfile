@@ -1,4 +1,4 @@
-FROM node:jod-alpine
+FROM node:jod-slim
 
 ARG PROJECT=producto
 ARG NAME=elasticsync
@@ -18,8 +18,13 @@ COPY tools/package*.json tools/
 COPY tools/config    tools/config
 COPY tools/kafka     tools/kafka
 
+COPY scripts/wait-for-it.sh .
+RUN chmod +x ./wait-for-it.sh
+
 RUN npm install
 
 # Set start command
-WORKDIR /producto/services/elasticsync
+WORKDIR /${PROJECT}/services/${NAME}
+RUN chmod +x ./entrypoint.sh
+ENTRYPOINT [ "./entrypoint.sh" ]
 CMD ["npm", "run", "start"]

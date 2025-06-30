@@ -1,6 +1,6 @@
 const axios     = require('axios');
 const RETRIES   = 5;
-const RETRY_GAP = 5000;
+const RETRY_GAP = 10000;
 
 class ElasticEngine {
     static #host;

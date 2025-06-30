@@ -11,7 +11,7 @@ exports.up = async function(knex) {
       table.string("name").notNullable();
       table.string("hsn").notNullable();
       table.integer("mrp").notNullable();
-      table.boolean("isDeleted").defaultTo(false).notNullable();
+      table.boolean("isdeleted").defaultTo(false).notNullable();
       table.timestamps(true, true);
   });
 

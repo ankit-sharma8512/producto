@@ -3,6 +3,9 @@ const Admin = require("./admin");
 const TOPICS = [
     {
         topic: 'product-changes'
+    },
+    {
+        topic: 'stock-updates'
     }
 ]
 
@@ -13,7 +16,10 @@ async function main() {
 
         await Admin.initiate(process.env.KAFKA_SEED_BROKER);
 
-        const isCreated = await Admin.createTopics(TOPICS);
+        const existing = await Admin.listTopics();
+        console.log("Existing topics: ", existing);
+
+        const isCreated = await Admin.createTopics(TOPICS.filter(t => !existing.includes(t.topic)));
 
         if(!isCreated)
             console.log("Topics already exists");

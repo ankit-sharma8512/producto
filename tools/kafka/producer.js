@@ -49,6 +49,13 @@ class Producer {
             ]
         })
     }
+
+    static async publishMultiple(topic, messages) {
+        await this.#producer.send({
+            topic,
+            messages
+        });
+    }
 }
 
 module.exports = Producer;

@@ -1,17 +1,24 @@
 const express = require("express");
-const Config  = require("../../tools/config");
+const morgan  = require('morgan');
+
+const stockRouter    = require("../routes/stock");
+const purchaseRouter = require("../routes/purchase");
 
 class Application {
-    static #app;
+    #app;
 
-    static initialize() {
+    constructor() {
         this.#app = express();
+        this.#app.use(express.json());
+        this.#app.use(morgan('dev'));
 
-        this.#app.get("/", (req, res) => res.send("Hello from trade"));
+        this.#app.get("/ping", (req, res) => res.send("Hello from trade"));
+        this.#app.use("/stock", stockRouter);
+        this.#app.use("/purchase", purchaseRouter)
     }
 
-    static start() {
-        this.#app.listen(Config.read("port"), () => {
+    start(port=8000) {
+        this.#app.listen(port, () => {
             console.log("Server started successfully");
         })
     }

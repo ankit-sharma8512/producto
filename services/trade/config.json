@@ -4,5 +4,6 @@
     "service"        : "${SERVICE}",
     "zookeeper-host" : "${ZOOKEEPER_HOST}",
     "zookeeper-node" : "${ZOOKEEPER_NODE}",
-    "kafka-broker"   : "${KAFKA_SEED_BROKER}"
+    "kafka-broker"   : "${KAFKA_SEED_BROKER}",
+    "db-url"         : "${TRADE_DB_URL}"
 }

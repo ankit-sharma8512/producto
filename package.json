@@ -12,7 +12,10 @@
     "dev"       : "docker compose -f docker/compose.dev.yaml up",
     "dev-setup" : "docker compose -f docker/compose.dev.yaml up setup",
     "dev-build" : "docker compose -f docker/compose.dev.yaml build",
-    "dev-down"  : "docker compose -f docker/compose.dev.yaml down"
+    "dev-down"  : "docker compose -f docker/compose.dev.yaml down",
+
+    "purge"     : "docker volume ls -q | xargs docker volume rm",
+    "flink"     : "docker build -t pyflink:latest tools/flink"
   },
   "workspaces":[
     "database/*",

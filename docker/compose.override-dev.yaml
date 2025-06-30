@@ -5,23 +5,28 @@ services:
     command: ["npm", "run", "dev"]
     volumes:
       - ../services/api:/producto/services/api
-      - ../services/api/node_modules:/producto/services/api/node_modules
       - ../tools:/producto/tools
-      - ../tools/node_modules:/producto/tools/node_modules
+      - ../node_modules:/producto/node_modules
 
   product:
     command: ["npm", "run", "dev"]
     volumes:
       - ../services/product:/producto/services/product
-      - ../services/product/node_modules:/producto/services/product/node_modules
       - ../tools:/producto/tools
-      - ../tools/node_modules:/producto/tools/node_modules
-      - ../database/productdb:/producto/database/productdb
-      - ../database/elasticsearch:/producto/database/elasticsearch
+      - ../database:/producto/database
+      - ../node_modules:/producto/node_modules
 
   elasticsync:
     command: ["npm", "run", "dev"]
     volumes:
       - ../services/elasticsync:/producto/services/elasticsync
-      - ../services/elasticsync/node_modules:/producto/services/elasticsync/node_modules
-      - ../database/elasticsearch:/producto/database/elasticsearch
+      - ../database:/producto/database
+      - ../node_modules:/producto/node_modules
+
+  trade:
+    command: ["npm", "run", "dev"]
+    volumes:
+      - ../services/trade:/producto/services/trade
+      - ../tools:/producto/tools
+      - ../database:/producto/database
+      - ../node_modules:/producto/node_modules

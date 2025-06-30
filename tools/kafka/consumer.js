@@ -31,7 +31,7 @@ class Consumer {
                 brokers: [broker]
             })
             
-            this.#consumer = this.#client.consumer({groupId});
+            this.#consumer = this.#client.consumer({ groupId });
 
             await this.connect();
             console.log("Connected to kafka as consumer")

@@ -3,10 +3,16 @@ const App            = require("./src/app");
 const ServiceManager = require("./remote/service_manager");
 
 const CONFIG_PATH = "/producto/services/api/config.json";
-const SERVICES    = [{
-    key   : 'product',
-    znode : '/service/product'
-}]
+const SERVICES    = [
+    {
+        key   : 'product',
+        znode : '/service/product'
+    },
+    {
+        key   : 'trade',
+        znode : '/service/trade'
+    },
+]
 
 async function main() {
     // read and store config
