@@ -1,4 +1,4 @@
-const HTTPError      = require("../../../services/trade/utils/error");
+const HTTPError      = require("../utils/error");
 const DB             = require("../connection/index");
 const PurchaseSchema = require("../schema/purchase");
 
@@ -88,14 +88,11 @@ class PurchaseModel {
         return res;
     }
 
-    // static async markComplete(_id) {
-    //     const purchase = await this.getPurchaseDetail(_id);
-    //     const orders   = await this.getPurchaseOrders(_id);
+    static async markComplete(_id) {
+        const purchase = await this.#model.findByIdAndUpdate(_id, { $set: { state:'COMPLETED' } }, { returnDocument:'after', lean: true, select:'-purchase' })
 
-    //     console.log("Complete purchase ", orders);
-
-    //     return purchase;
-    // }
+        return purchase;
+    }
 }
 
 module.exports = PurchaseModel;

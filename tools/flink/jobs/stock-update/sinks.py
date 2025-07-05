@@ -1,5 +1,8 @@
-from pyflink.datastream.connectors.jdbc import JdbcSink, JdbcConnectionOptions, JdbcExecutionOptions
-from parsers                            import stock_message_type, lot_message_type
+from pyflink.datastream.connectors.jdbc  import JdbcSink, JdbcConnectionOptions, JdbcExecutionOptions
+from pyflink.datastream.connectors.kafka import KafkaSink, KafkaRecordSerializationSchema, DeliveryGuarantee
+from pyflink.common.serialization        import SimpleStringSchema
+
+from parsers                             import stock_message_type, lot_message_type
 
 import os
 
@@ -49,3 +52,26 @@ lot_sink = JdbcSink.sink(
         .with_max_retries(10)
         .build()
 )
+
+stock_updates_sink = KafkaSink.builder() \
+        .set_bootstrap_servers('kafka:9092') \
+        .set_record_serializer(
+            KafkaRecordSerializationSchema.builder()
+                .set_topic("stock-updates")
+                .set_value_serialization_schema(SimpleStringSchema())
+                .build()
+        ) \
+        .set_delivery_guarantee(DeliveryGuarantee.EXACTLY_ONCE) \
+        .set_transactional_id_prefix("stock-updates-txn-") \
+        .build()
+
+order_updates_sink = KafkaSink.builder() \
+        .set_bootstrap_servers('kafka:9092') \
+        .set_record_serializer(
+            KafkaRecordSerializationSchema.builder()
+                .set_topic("order-updates")
+                .set_value_serialization_schema(SimpleStringSchema())
+                .build()
+        ) \
+        .set_delivery_guarantee(DeliveryGuarantee.AT_LEAST_ONCE) \
+        .build()

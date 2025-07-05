@@ -1,5 +1,6 @@
 const express   = require("express");
 const morgan    = require("morgan");
+const cors      = require("cors");
 
 const productRouter = require("../routes/product");
 
@@ -9,6 +10,7 @@ class Application {
     constructor() {
         this.#app = express(); 
         this.#app.use(morgan('dev'));
+        this.#app.use(cors())
         this.#app.use(express.json());
 
         this.#app.get('/ping', (req, res) => res.send("Hello from api"));

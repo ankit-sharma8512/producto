@@ -21,7 +21,7 @@ const PurchaseSchema = new Schema({
     date     : { type : Date, required : true, default : new Date() },
     state    : { type : String, enum : ['DRAFT', 'COMPLETED'], default : 'DRAFT'},
     
-    vendorId : { type : Schema.Types.ObjectId, ref : 'vendor', index : true },
+    vendorId : { type : Schema.Types.ObjectId, ref : 'trader', index : true },
     vendor   : { type : Vendor, default : null, required : function() { return !Boolean(this.vendorId) } },
 
     total    : { type : Number, default : 0 },

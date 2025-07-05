@@ -30,3 +30,4 @@ services:
       - ../tools:/producto/tools
       - ../database:/producto/database
       - ../node_modules:/producto/node_modules
+      - ../products.json:/producto/products.json

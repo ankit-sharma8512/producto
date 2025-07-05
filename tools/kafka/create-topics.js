@@ -6,6 +6,9 @@ const TOPICS = [
     },
     {
         topic: 'stock-updates'
+    },
+        {
+        topic: 'order-updates'
     }
 ]
 

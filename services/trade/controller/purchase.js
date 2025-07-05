@@ -1,7 +1,7 @@
 const PurchaseModel = require("../../../database/tradedb/models/purchase");
 const HTTPError     = require("../utils/error");
 const TProducer     = require("../../../tools/kafka/transactional-producer");
-const Producer      = require("../../../tools/kafka/producer");
+// const Producer      = require("../../../tools/kafka/producer");
 
 const STOCK_TOPIC = 'stock-updates';
 
@@ -148,7 +148,12 @@ class PurchaseController {
     static async markComplete(req, res) {
         try {
             const {_id} = req.params;
-            const data  = await PurchaseModel.getPurchaseOrders(_id);
+            const purchase = await PurchaseModel.getPurchaseDetail(_id);
+
+            if(purchase.state != 'DRAFT')
+                throw new HTTPError(400, 'ERR_ALREADY_COMPLETED', 'purchase already completed');
+
+            const data     = await PurchaseModel.getPurchaseOrders(_id);
             
             const messages = data?.purchase.map(p => ({
                 purchaseId : _id,
@@ -157,6 +162,7 @@ class PurchaseController {
                 ...p
             })).map(m => ({ key: m.pid, value: JSON.stringify(m) }));
             
+            await PurchaseModel.markComplete(_id);
             await TProducer.publish(STOCK_TOPIC, messages);
 
             return res.send();

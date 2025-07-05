@@ -17,4 +17,4 @@ class ActionRouter(ProcessFunction):
             else:
                 yield error_tag, "Undefined action"
         except Exception as e:
-            yield error_tag, "Error: "+e
+            yield error_tag, "Error: "+str(e)

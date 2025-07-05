@@ -31,17 +31,19 @@ class Discover {
 
     async #getChildren(path, watcher) {
         return new Promise((resolve, reject) => {
-            this.#client.exists(path, (err, stat) => {
-                if(err) reject(err);
-                if(!stat) resolve([]);
-
-                this.#client.getChildren(path, (ev) => {
-                    watcher();
-                }, (err, children) => {
+            this.#client.exists(path, (ev) => {
+                    watcher()
+                }, (err, stat) => {
                     if(err) reject(err);
-                    
-                    resolve(children);
-                });
+                    if(!stat) resolve([]);
+
+                    this.#client.getChildren(path, (ev) => {
+                        watcher();
+                    }, (err, children) => {
+                        if(err) reject(err);
+
+                        resolve(children);
+                    });
             });
         });
     }
