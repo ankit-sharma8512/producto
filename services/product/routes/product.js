@@ -9,4 +9,7 @@ router.get    ('/detail/:id', ProductController.detail);
 router.put    ('/update/:id', ProductController.update);
 router.delete ('/delete/:id', ProductController.delete);
 
+router.get    ('/list/lot',       ProductController.getLots)
+router.get    ('/available/:id',  ProductController.getAvailable)
+
 module.exports = router;

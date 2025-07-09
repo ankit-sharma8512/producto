@@ -12,7 +12,7 @@ function ProductSearch({ onAdd, disable }) {
   const [search, setSearch] = useState(null);
   const [productSelected, setProductSelected] = useState(null);
   const [form] = Form.useForm()
-  const { data: prods, isFetching: isLoadingProd, isError: isErrorProd } = useProductList({ search, page: 1, size: 20 }, { enabled: Boolean(search), refetchOnWindowFocus: false })
+  const { data: prods, isFetching: isLoadingProd, isError: isErrorProd } = useProductList({ search, page: 1, limit: 20 }, { enabled: Boolean(search), refetchOnWindowFocus: false })
 
   async function onFinish(data) {
     try {
@@ -28,7 +28,7 @@ function ProductSearch({ onAdd, disable }) {
 
   function handleValueChange(changed) {
     if (changed.pid) {
-      const prod = prods?.result.find(p => p._id === changed.pid)
+      const prod = prods?.results.find(p => p.id === changed.pid)
       setProductSelected(prod)
     }
   }
@@ -44,7 +44,7 @@ function ProductSearch({ onAdd, disable }) {
         <Form.Item name='pid' rules={[{ required: true, message: 'Select a product and below fields to add' }]}>
           <DebouncedSelect
             allowClear
-            options={prods?.result.map(b => ({ label: b.name + ` (MRP:Rs.${b.mrp}) (Brand:${b.brand})`, value: b._id }))}
+            options={prods?.results.map(b => ({ label: b.name + ` (MRP:Rs.${b.mrp}) (Brand:${b.brand})`, value: b.id }))}
             isFetching={isLoadingProd}
             isError={isErrorProd}
             trigger={v => setSearch(v)}
@@ -116,11 +116,13 @@ function UpdateOrderEntry({ val, onUpdate, display = v => v || '-', validation, 
 }
 
 function OrderManager({ purchaseId, changeAllowed, total }) {
-  const { data, isLoading, isError } = usePurchaseOrders(purchaseId);
-  const addOrder = useAddPurchaseOrder(purchaseId);
-  const removeOrder = useRemovePurchaseOrder(purchaseId);
-  const updateOrder = useUpdatePurchaseOrder(purchaseId);
-  const { message } = App.useApp()
+  const { data: raw, isLoading, isError } = usePurchaseOrders(purchaseId);
+  const addOrder                          = useAddPurchaseOrder(purchaseId);
+  const removeOrder                       = useRemovePurchaseOrder(purchaseId);
+  const updateOrder                       = useUpdatePurchaseOrder(purchaseId);
+  const { message }                       = App.useApp()
+
+  const data = raw?.purchase
 
   async function updOrder(data) {
     try {
@@ -131,7 +133,6 @@ function OrderManager({ purchaseId, changeAllowed, total }) {
       throw err
     }
   }
-
 
   async function remOrder(pid) {
     try {
@@ -147,6 +148,12 @@ function OrderManager({ purchaseId, changeAllowed, total }) {
   }
 
   const cols = [
+    {
+      title: "Sl.No.",
+      render: (_, __, i) => i + 1,
+      width: 60,
+      align:'end'
+    },
     {
       title: 'Brand',
       dataIndex: ['pid', 'brand'],
@@ -167,21 +174,21 @@ function OrderManager({ purchaseId, changeAllowed, total }) {
       title: 'Mfg Date',
       dataIndex: 'mfgDate',
       align: 'right',
-      render: (v, row) => <UpdateOrderEntry k='mfgDate' pid={row.pid._id} val={v ? dayjs(v) : null} onUpdate={onUpdate} disable={!changeAllowed} mode='date' display={v => v ? dayjs(v).format('DD-MM-YYYY') : '-'} />,
+      render: (v, row) => <UpdateOrderEntry k='mfgDate' pid={row.pid.id} val={v ? dayjs(v) : null} onUpdate={onUpdate} disable={!changeAllowed} mode='date' display={v => v ? dayjs(v).format('DD-MM-YYYY') : '-'} />,
       width: 150
     },
     {
       title: 'Exp Date',
       dataIndex: 'expDate',
       align: 'right',
-      render: (v, row) => <UpdateOrderEntry k='expDate' pid={row.pid._id} val={v ? dayjs(v) : null} onUpdate={onUpdate} disable={!changeAllowed} mode='date' display={v => v ? dayjs(v).format('DD-MM-YYYY') : '-'} />,
+      render: (v, row) => <UpdateOrderEntry k='expDate' pid={row.pid.id} val={v ? dayjs(v) : null} onUpdate={onUpdate} disable={!changeAllowed} mode='date' display={v => v ? dayjs(v).format('DD-MM-YYYY') : '-'} />,
       width: 150
     },
     {
       title: 'Quantity',
       dataIndex: 'quantity',
       align: 'right',
-      render: (v, row) => <UpdateOrderEntry k='quantity' pid={row.pid._id} val={v} onUpdate={onUpdate} disable={!changeAllowed} />,
+      render: (v, row) => <UpdateOrderEntry k='quantity' pid={row.pid.id} val={v} onUpdate={onUpdate} disable={!changeAllowed} />,
       width: 110
     },
     {
@@ -189,7 +196,7 @@ function OrderManager({ purchaseId, changeAllowed, total }) {
       dataIndex: 'price',
       align: 'right',
       render: (v, row) => <UpdateOrderEntry
-        k='price' pid={row.pid._id}
+        k='price' pid={row.pid.id}
         val={v}
         onUpdate={onUpdate}
         validation={(v) => v <= row.pid.mrp}
@@ -200,7 +207,7 @@ function OrderManager({ purchaseId, changeAllowed, total }) {
     },
     {
       title: 'Remove',
-      dataIndex: ['pid', '_id'],
+      dataIndex: ['pid', 'id'],
       align: 'center',
       render: (v) => <Popconfirm title='Remove this order' placement="topLeft" onConfirm={() => remOrder(v)}><Button size="small" danger icon={<CloseOutlined />} disabled={!changeAllowed} /></Popconfirm>,
       width: 100
@@ -218,7 +225,10 @@ function OrderManager({ purchaseId, changeAllowed, total }) {
         </Col>
         <Col span={8}>
           <Card size="small" title='Purchase Total Amount (INR)' style={{ minHeight: '100%' }}>
+            <Flex vertical>
             <Typography.Text>Total Paid: {(total || 0).toFixed(2)} INR</Typography.Text>
+            <Typography.Text>Total Until Now: {(data?.reduce((agg, curr) => agg+curr.quantity * curr.price, 0))?.toFixed(2)} INR</Typography.Text>
+            </Flex>
           </Card>
         </Col>
       </Row>
@@ -228,7 +238,7 @@ function OrderManager({ purchaseId, changeAllowed, total }) {
         columns={cols}
         dataSource={data}
         loading={isLoading}
-        rowKey={r => r.pid._id}
+        rowKey={r => r.pid.id}
         pagination={false}
       />
     </Flex>

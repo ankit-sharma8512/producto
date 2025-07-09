@@ -3,6 +3,9 @@ const morgan    = require("morgan");
 const cors      = require("cors");
 
 const productRouter = require("../routes/product");
+const tradeRouter   = require("../routes/trade");
+const grnRouter     = require("../routes/grn");
+const traderRouter  = require("../routes/trader");
 
 class Application {
     #app;
@@ -15,6 +18,9 @@ class Application {
 
         this.#app.get('/ping', (req, res) => res.send("Hello from api"));
         this.#app.use('/product', productRouter);
+        this.#app.use('/trade',   tradeRouter);
+        this.#app.use('/grn',     grnRouter);
+        this.#app.use('/trader',  traderRouter);
     }
 
     start(port) {

@@ -3,9 +3,11 @@ from pyflink.datastream.state import ValueStateDescriptor, ListStateDescriptor
 from pyflink.common.typeinfo  import Types
 
 from validate                 import error_tag
+import json
 
 purchase_tag = OutputTag("PURCHASE", Types.TUPLE([Types.STRING(), Types.STRING()]))
 order_tag    = OutputTag("ORDER",    Types.TUPLE([Types.STRING(), Types.STRING(), Types.STRING()]))
+grn_tag      = OutputTag("GRN",      Types.TUPLE([Types.STRING(), Types.STRING()]))
 
 stock_tag    = OutputTag("STOCK", Types.TUPLE([Types.STRING(), Types.STRING(), Types.INT(), Types.DOUBLE()]))
 
@@ -29,6 +31,19 @@ class UpdateStock(KeyedProcessFunction):
                 self.available.update(available)
 
                 yield purchase_tag, (product_id, data) # sink to lots tables
+                yield (product_id, available, data) # sink for available update
+            
+            elif action == "GRN":
+                type = json.loads(data)['type']
+
+                if type == 'positive':
+                    available += quantity
+                elif available >= quantity:
+                    available -= quantity
+
+                self.available.update(available)
+
+                yield grn_tag, (product_id, data)
                 yield (product_id, available, data) # sink for available update
 
             elif action == "ORDER":

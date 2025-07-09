@@ -5,7 +5,25 @@ import { Spin }           from "antd";
 import Dashboard          from './layout/Dashboard';
 import Home               from './pages/Home'
 
-const ProductList = lazy(() => import('./pages/product/List'));
+const ProductList   = lazy(() => import('./pages/product/List'));
+const ProductCreate = lazy(() => import('./pages/product/Create'));
+const ProductDetail = lazy(() => import('./pages/product/Detail'));
+
+const PurchaseList   = lazy(() => import("./pages/purchase/List"));
+const PurchaseDetail = lazy(() => import("./pages/purchase/Detail"));
+const PurchaseCreate = lazy(() => import("./pages/purchase/Create"));
+const PurchaseUpdate = lazy(() => import("./pages/purchase/Update"));
+
+const OrderList   = lazy(() => import("./pages/order/List"));
+const OrderCreate = lazy(() => import("./pages/order/Create"));
+const OrderDetail = lazy(() => import("./pages/order/Detail"));
+const OrderUpdate = lazy(() => import("./pages/order/Update"));
+
+const GRNList   = lazy(() => import("./pages/grn/List"));
+
+const BuyerList = lazy(() => import("./pages/trader/Buyer"));
+const VendorList = lazy(() => import("./pages/trader/Vendor"));
+
 /*
 const ProductList = lazy(() => import('./pages/product/List'));
 const ProductDetail = lazy(() => import('./pages/product/Detail'));
@@ -38,9 +56,29 @@ function RouteController() {
 				<Route index element={<Home/>} />
 
 				<Route path='product' element={<Placeholder/>}>
-					<Route index element={<ProductList/>} />
+					<Route index                element={<ProductList />} />
+					<Route path='create'        element={<ProductCreate />} />
+          <Route path=':id'           element={<ProductDetail />} />
+          <Route path='update/:id'    element={<ProductCreate />} />
 				</Route>				
-				<Route path='*' element={<span>Invalid Path</span>} />
+				<Route path='purchase' element={<Placeholder/>}>
+          <Route index                element={<PurchaseList/>}/>
+          <Route path='create'        element={<PurchaseCreate/>}/>
+          <Route path=':id'           element={<PurchaseDetail/>}/>
+          <Route path='update/:id'    element={<PurchaseUpdate />} />
+        </Route>
+        <Route path='order' element={<Placeholder/>}>
+          <Route index                element={<OrderList/>}/>
+          <Route path='create'        element={<OrderCreate/>}/>
+          <Route path=':id'           element={<OrderDetail/>}/>
+          <Route path='update/:id'    element={<OrderUpdate />} />
+        </Route>
+        <Route path='grn' element={<Placeholder/>}>
+          <Route index                element={<GRNList />}/>
+        </Route>
+        <Route path='buyer' element={<Suspense fallback={<Spin />}><BuyerList /></Suspense>} />
+        <Route path='vendor' element={<Suspense fallback={<Spin />}><VendorList /></Suspense>} />
+				<Route path='*' element={<span style={{color:'black'}}>Invalid Path</span>} />
 			</Route>
 		</Routes>
 	);

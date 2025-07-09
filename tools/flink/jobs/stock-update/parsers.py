@@ -76,3 +76,15 @@ def parse_order_update_message(data):
         })
     except Exception as e:
         return None
+    
+
+grn_message_type = Types.ROW_NAMED(
+    ['productid', 'quantity', 'type'],
+    [Types.STRING(), Types.INT(), Types.STRING()]
+)
+def parse_grn_message(data):
+    try:
+        parsed = json.loads(data[1])
+        return Row(productid=data[0], quantity=int(parsed['quantity']), type=parsed['type'])
+    except Exception as e:
+        return None

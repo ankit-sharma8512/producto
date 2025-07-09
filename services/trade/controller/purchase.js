@@ -1,7 +1,10 @@
 const PurchaseModel = require("../../../database/tradedb/models/purchase");
 const HTTPError     = require("../utils/error");
 const TProducer     = require("../../../tools/kafka/transactional-producer");
+const RestClient    = require("../../../tools/zookeeper/rest_client");
+ 
 // const Producer      = require("../../../tools/kafka/producer");
+const product       = new RestClient('product');
 
 const STOCK_TOPIC = 'stock-updates';
 
@@ -10,9 +13,28 @@ class PurchaseController {
         try {
             const filter = req.query || {};
 
-            const results = await PurchaseModel.getPurchaseList(filter);
+            const page   = Number(filter?.page || 1)
+            const limit  = Number(filter?.limit || 10)
 
-            return res.json(results);
+            if(page)  delete filter.page
+            if(limit) delete filter.limit
+
+            const results = await PurchaseModel.getPurchaseList(filter, {
+                sort : { date: -1 },
+                skip : (page-1)*limit,
+                limit
+            });
+
+            const total   = await PurchaseModel.getPurchaseCount(filter);
+
+            return res.json({
+                results,
+                pagination : {
+                    page,
+                    limit,
+                    total
+                }
+            });
         }
         catch(err) {
             console.log(err)
@@ -41,6 +63,10 @@ class PurchaseController {
             const {_id} = req.params;
 
             const results = await PurchaseModel.getPurchaseOrders(_id);
+
+            const products = await Promise.all(results.purchase.map(p => product.get(`/detail/${p.pid}`)))
+
+            results.purchase.forEach((prod, i) => prod.pid = products[i])
 
             return res.json(results);
         }
@@ -108,7 +134,6 @@ class PurchaseController {
             return res.json(results);
         }
         catch(err) {
-            console.log(err)
             const error = err instanceof HTTPError ? err.error : new HTTPError().error;
             return res.status(error.status).json(error);
         }

@@ -4,12 +4,37 @@ function makeQuery(keywords, page, limit) {
         from : ((page-1)*limit) || 0
     }
 
+    if(Array.isArray(keywords))
+        keywords = keywords.join(" ").trim()
+
+    console.log(keywords)
+
     if(keywords.length > 0) {
         query.query = {
-            multi_match: {
-                query: keywords,
-                fields: ['name', 'hsn', 'brand']
+            bool : {
+                should: [
+                    {
+                        multi_match: {
+                            query  : keywords,
+                            fields : ['name', 'hsn', 'brand']
+                        }
+                    },
+                    {
+                        match : {
+                            name : {
+                                query     : keywords,
+                                fuzziness : "AUTO"
+                            }
+                        }
+                    },
+                    {
+                        prefix: {
+                            brand: keywords
+                        }
+                    }
+                ]
             }
+
         }
     }
 

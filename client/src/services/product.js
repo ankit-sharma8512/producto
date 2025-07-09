@@ -17,9 +17,14 @@ export async function getProductDetail(_id) {
   return data;
 }
 
+export async function getProductAvailable(_id) {
+  const { data } = await Client.get(`/product/available/${_id}`);
+  return data;
+}
+
 export async function addProduct(data) {
   const response = await Client.post('/product/create', data);
-  return response
+  return response.data
 }
 
 export async function addLot(data) {
@@ -28,8 +33,10 @@ export async function addLot(data) {
 }
 
 export async function updateProduct(data) {
-  const response = await Client.put('/product/update/' + data._id, data);
-  return response
+  const id = data.id
+  delete data.id
+  const response = await Client.put('/product/update/' + id, data);
+  return response.data
 }
 
 export async function updateProductLot(data) {

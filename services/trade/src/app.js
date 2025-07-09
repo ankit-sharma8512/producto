@@ -4,6 +4,7 @@ const morgan  = require('morgan');
 const stockRouter    = require("../routes/stock");
 const purchaseRouter = require("../routes/purchase");
 const orderRouter    = require("../routes/order");
+const traderRouter   = require("../routes/trader");
 
 class Application {
     #app;
@@ -17,6 +18,7 @@ class Application {
         this.#app.use("/stock", stockRouter);
         this.#app.use("/purchase", purchaseRouter)
         this.#app.use("/order", orderRouter)
+        this.#app.use("/trader", traderRouter)
     }
 
     start(port=8000) {

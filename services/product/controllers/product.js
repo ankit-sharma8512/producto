@@ -16,7 +16,14 @@ class ProductController {
             const query = makeQuery(req.query?.search || "", req.query.page || 1, req.query.limit || 10);
             const results = await ElasticEngine.getDocs(INDEX_NAME, query);
 
-            return res.json(results?.hits?.hits.map(d => d._source));
+            return res.json({
+                results: results?.hits?.hits.map(d => d._source) || [],
+                pagination : {
+                    page  : Number(req.query.page) || 1,
+                    limit : Number(req.query.limit) || 10,
+                    total : results?.hits?.total?.value || 0
+                }
+            });
         }
         catch(err) {
             console.log(err)
@@ -120,6 +127,48 @@ class ProductController {
             Cache.delete(DETAIL_KEY(id));
             // publish this in product change topic for elastic search
             Producer.publish(PRODUCT_TOPIC, results.id, { action:"DELETE", payload: results });
+
+            return res.json(results);
+        }
+        catch(err) {
+            console.log(err)
+            const error = err instanceof HTTPError ? err.error : new HTTPError().error;
+            return res.status(error.status).json(error);
+        }
+    }
+
+    static async getLots(req, res) {
+        try {
+            const {pid} = req.query
+
+            let results;
+
+            // // check cache first
+            // product  = await Cache.get(DETAIL_KEY(id));
+
+            if(!results)
+                results = await product_model.getLots(pid);
+
+            return res.json(results);
+        }
+        catch(err) {
+            console.log(err)
+            const error = err instanceof HTTPError ? err.error : new HTTPError().error;
+            return res.status(error.status).json(error);
+        }
+    }
+
+    static async getAvailable(req, res) {
+        try {
+            const { id } = req.params;
+
+            let results;
+
+            // check cache first
+            // results  = await Cache.get(DETAIL_KEY(id));
+
+            if(!results)
+                results = await product_model.getAvailable(id);
 
             return res.json(results);
         }

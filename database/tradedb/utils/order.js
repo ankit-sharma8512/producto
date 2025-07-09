@@ -4,6 +4,7 @@ const BILL_SEQ_LEN = 5;
 
 function getBillNo(seq, label, date, sub = '') {
     const seqNumber = String(seq).padStart(BILL_SEQ_LEN, '0');
+    console.log(date)
 
     return `ST/${sub}${label}/${moment(date).format('MM')}/${seqNumber}`;
 }

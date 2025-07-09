@@ -1,9 +1,10 @@
 import { Alert, App, Button, Card, Col, Flex, Form, InputNumber, Row, Spin, Switch, Table, Popconfirm, Space, Badge } from "antd";
 import { useAddBillOrder, useBillOrders, useRemoveBillOrder, useUpdateBillOrder } from "../hooks/billing-api"
-import { useProductList, useProductLots } from '../hooks/product-api';
+import { useProductList, useProductAvailable } from '../hooks/product-api';
 import DebouncedSelect from "./DebouncedSelect";
 import { useMemo, useState } from "react";
 import { CheckOutlined, CloseOutlined, EditOutlined } from "@ant-design/icons";
+import ProductAvailable from './ProductAvailable';
 
 function ProductSearch({ onAdd, disable }) {
   const { message } = App.useApp()
@@ -13,7 +14,7 @@ function ProductSearch({ onAdd, disable }) {
   const [form] = Form.useForm()
   const pid = Form.useWatch('pid', form);
   const { data: prods, isFetching: isLoadingProd, isError: isErrorProd } = useProductList({ search, page: 1, size: 20 }, { enabled: Boolean(search), refetchOnWindowFocus: false })
-  const { data: lots, isFetching: isLoadingLots } = useProductLots({ pid, count: true }, { enabled: Boolean(pid) })
+  const { data, isFetching, isError } = useProductAvailable(pid, {enabled:Boolean(pid)})
 
   async function onFinish(data) {
     try {
@@ -29,7 +30,7 @@ function ProductSearch({ onAdd, disable }) {
 
   function handleValueChange(changed) {
     if (changed.pid) {
-      const prod = prods?.result.find(p => p._id === changed.pid)
+      const prod = prods?.results.find(p => p.id === changed.pid)
       console.log(prod)
       setProductSelected(prod)
       form.setFieldValue('rate', prod.mrp)
@@ -42,7 +43,7 @@ function ProductSearch({ onAdd, disable }) {
     form.resetFields()
   }
 
-  const available = useMemo(() => (lots?.reduce((agg, curr) => agg + curr.quantity, 0) || null), [lots])
+  const available = !isError ? data?.available : 0;
 
   return (
     <Card title='Add product order' size="small" extra={<Switch onChange={v => setEnabled(v)} disabled={disable} />}>
@@ -50,7 +51,7 @@ function ProductSearch({ onAdd, disable }) {
         <Form.Item name='pid' rules={[{ required: true, message: 'Select a product and below fields to add' }]}>
           <DebouncedSelect
             allowClear
-            options={prods?.result.map(b => ({ label: b.name + ` (MRP:Rs.${b.mrp}) (Brand:${b.brand})`, value: b._id }))}
+            options={prods?.results.map(b => ({ label: b.name + ` (MRP:Rs.${b.mrp}) (Brand:${b.brand})`, value: b.id }))}
             isFetching={isLoadingProd}
             isError={isErrorProd}
             trigger={v => setSearch(v)}
@@ -58,7 +59,7 @@ function ProductSearch({ onAdd, disable }) {
           />
         </Form.Item>
         <Flex>
-          <Form.Item rules={[{ required: true }]} name='quantity' style={{ width: '33%' }} help={'Available: ' + (isLoadingLots ? <Spin size="small" /> : (available || '-'))}>
+          <Form.Item rules={[{ required: true }]} name='quantity' style={{ width: '33%' }} help={'Available: ' + (isFetching ? <Spin size="small" /> : (available || '-'))}>
             <InputNumber placeholder="Quantity" style={{ width: '90%' }} />
           </Form.Item>
           <Form.Item rules={[{ required: true }]} name='rate' style={{ width: '33%' }} help={'MRP: ' + (productSelected?.mrp || '-') + (productSelected ? ' INR' : '')}>
@@ -116,11 +117,13 @@ function UpdateOrderEntry({ val, onUpdate, display = v => v, validation, msg, di
 }
 
 function OrderManager({ billId, changeAllowed, returnAllowed }) {
-  const { data, isLoading, isError } = useBillOrders(billId);
-  const addOrder = useAddBillOrder(billId);
-  const removeOrder = useRemoveBillOrder(billId);
-  const updateOrder = useUpdateBillOrder(billId);
-  const { message } = App.useApp()
+  const { data:items, isLoading, isError } = useBillOrders(billId);
+  const addOrder                           = useAddBillOrder(billId);
+  const removeOrder                        = useRemoveBillOrder(billId);
+  const updateOrder                        = useUpdateBillOrder(billId);
+  const { message }                        = App.useApp()
+
+  const data = items?.order
 
   async function updOrder(data) {
     try {
@@ -131,7 +134,6 @@ function OrderManager({ billId, changeAllowed, returnAllowed }) {
       throw err
     }
   }
-
 
   async function remOrder(pid) {
     try {
@@ -178,14 +180,14 @@ function OrderManager({ billId, changeAllowed, returnAllowed }) {
       title: 'Quantity',
       dataIndex: 'quantity',
       align: 'right',
-      render: (v, row) => <UpdateOrderEntry k='quantity' pid={row.pid._id} val={v} onUpdate={onUpdate} disable={!changeAllowed} />,
+      render: (v, row) => <UpdateOrderEntry k='quantity' pid={row.pid.id} val={v} onUpdate={onUpdate} disable={!changeAllowed} />,
       width: 110
     },
     {
       title: 'Status',
       align: 'center',
-      dataIndex: 'available',
-      render: (_, row) => (<Badge color={row.available >= row.quantity ? 'green' : 'red'} />),
+      dataIndex: ['pid', 'id'],
+      render: (v, row) => (<ProductAvailable id={v} status limit={row.quantity} />),
       width: 50
     },
     {
@@ -193,7 +195,7 @@ function OrderManager({ billId, changeAllowed, returnAllowed }) {
       dataIndex: 'rate',
       align: 'right',
       render: (v, row) => <UpdateOrderEntry
-        k='rate' pid={row.pid._id}
+        k='rate' pid={row.pid.id}
         display={v => v.toFixed(2)}
         val={v}
         onUpdate={onUpdate}
@@ -207,7 +209,7 @@ function OrderManager({ billId, changeAllowed, returnAllowed }) {
       title: 'Discount (%)',
       dataIndex: 'discount',
       align: 'right',
-      render: (v, row) => <UpdateOrderEntry k='discount' pid={row.pid._id} val={v} onUpdate={onUpdate} disable={!changeAllowed} />,
+      render: (v, row) => <UpdateOrderEntry k='discount' pid={row.pid.id} val={v} onUpdate={onUpdate} disable={!changeAllowed} />,
       width: 110
     },
     {
@@ -218,7 +220,7 @@ function OrderManager({ billId, changeAllowed, returnAllowed }) {
     },
     {
       title: 'Remove',
-      dataIndex: ['pid', '_id'],
+      dataIndex: ['pid', 'id'],
       align: 'center',
       render: (v) => <Popconfirm title='Remove this order' placement="topLeft" onConfirm={() => remOrder(v)}><Button size="small" danger icon={<CloseOutlined />} disabled={!changeAllowed} /></Popconfirm>,
       width: 100
@@ -227,8 +229,9 @@ function OrderManager({ billId, changeAllowed, returnAllowed }) {
       title: 'Returned',
       dataIndex: 'return',
       align: 'right',
-      render: (v, row) => <UpdateOrderEntry k='return' pid={row.pid._id} val={v} onUpdate={onUpdate} display={v => v || 0} disable={!returnAllowed} />,
+      render: (v, row) => <UpdateOrderEntry k='return' pid={row.pid.id} val={v} onUpdate={onUpdate} display={v => v || 0} disable={!returnAllowed} />,
       width: 110,
+      hidden: !returnAllowed
     },
   ];
 
@@ -281,7 +284,7 @@ function OrderManager({ billId, changeAllowed, returnAllowed }) {
         columns={cols.filter(c => !c.hidden)}
         dataSource={data}
         loading={isLoading}
-        rowKey={r => r.pid._id}
+        rowKey={r => r.pid.id}
         pagination={false}
       />
     </Flex>

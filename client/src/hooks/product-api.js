@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { addLot, addProduct, deleteProduct, deleteProductLot, getProductDetail, getProductLots, getProducts, updateProduct, updateProductLot } from "../services/product";
+import { addLot, addProduct, deleteProduct, deleteProductLot, getProductAvailable, getProductDetail, getProductLots, getProducts, updateProduct, updateProductLot } from "../services/product";
 
 export function useProductList(query, options = {}) {
   const result = useQuery(['product', query], () => getProducts(query), options);
@@ -7,8 +7,14 @@ export function useProductList(query, options = {}) {
   return result;
 }
 
-export function useProductDetail(id) {
-  const result = useQuery(['product', id], () => getProductDetail(id));
+export function useProductDetail(id, options = {}) {
+  const result = useQuery(['product', id], () => getProductDetail(id), options);
+
+  return result;
+}
+
+export function useProductAvailable(id, options = {}) {
+  const result = useQuery(['available', id], () => getProductAvailable(id), options);
 
   return result;
 }

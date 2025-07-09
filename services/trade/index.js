@@ -4,11 +4,18 @@ const Config         = require("../../tools/config/config");
 const Producer       = require("../../tools/kafka/producer");
 const TProducer      = require("../../tools/kafka/transactional-producer");
 const DB             = require("../../database/tradedb/connection");
+const ServiceManager = require("../../tools/zookeeper/service_manager");
 const registerModels = require("../../database/tradedb/connection/register");
 
 const CONFIG_PATH      = '/producto/services/trade/config.json';
 const TRANSACTIONAL_ID = 'trade-service:stock-updates:0';
 const CLIENT_ID        = 'trade-service'
+const SERVICES         = [
+    {
+        key   : 'product',
+        znode : '/service/product'
+    }
+]
 
 async function register() {
     try {
@@ -46,6 +53,12 @@ async function main() {
     await Config.read(CONFIG_PATH);
 
     register();
+
+    // Initiate service discovery
+    ServiceManager.initiate(SERVICES).catch(err => {
+        console.log("Failed to connect to zookeeper. wont be able to make service requests");
+    });
+
     await Producer.initiate(Config.get("kafka-broker"));
     await TProducer.initiate(Config.get("kafka-broker"), CLIENT_ID, TRANSACTIONAL_ID);
     await DB.init(Config.get("db-url"), registerModels)

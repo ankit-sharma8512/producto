@@ -3,7 +3,19 @@ const OrderController    = require("../controller/order");
 
 const router = Router();
 
-router.get("/test", OrderController.test);
-router.get("/test2", OrderController.test2)
+// Primary order API's
+router.get   ("/list",        OrderController.getOrders);
+router.get   ("/detail/:_id", OrderController.getOrderDetail);
+router.post  ("/create",      OrderController.createOrder);
+router.put   ("/update/:_id", OrderController.updateOrder);
+router.delete("/delete/:_id", OrderController.deleteOrder);
+
+// Order items API's
+router.get   ("/item/:_id",      OrderController.getOrderItems);
+router.post  ("/item/:_id",      OrderController.addOrderItem);
+router.put   ("/item/:_id",      OrderController.updateOrderItem);
+router.delete("/item/:_id/:pid", OrderController.removeOrderItem);
+
+// router.get("/test2", OrderController.test2)
 
 module.exports = router;

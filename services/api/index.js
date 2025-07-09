@@ -1,6 +1,6 @@
 const Config         = require("../../tools/config/config");
 const App            = require("./src/app");
-const ServiceManager = require("./remote/service_manager");
+const ServiceManager = require("../../tools/zookeeper/service_manager");
 
 const CONFIG_PATH = "/producto/services/api/config.json";
 const SERVICES    = [

@@ -10,7 +10,8 @@ class PurchaseModel {
     }
 
     static async getPurchaseList(filter={}, options={}) {
-        const result = await this.#model.find(filter, '-purchase', options).populate('vendorId').lean();
+        // const result = await this.#model.find(filter, '-purchase', options).populate('vendorId').lean();
+        const result = await this.#model.find(filter, '-purchase', options).lean();
 
         return result;
     }
@@ -22,7 +23,8 @@ class PurchaseModel {
     }
 
     static async getPurchaseDetail(_id) {
-        const result = await this.#model.findById(_id, '-purchase').populate('vendorId').lean();
+        const result = await this.#model.findById(_id, '-purchase').lean();
+        // const result = await this.#model.findById(_id, '-purchase').populate('vendorId').lean();
 
         if(!result)
             throw new HTTPError(404, 'ERR_NOT_FOUND', "Purchase not found");
@@ -70,7 +72,7 @@ class PurchaseModel {
     }
 
     static async updatePurchaseOrder(_id, order) {
-        await this.getPurchaseOrders(_id);
+        await this.getPurchaseDetail(_id);
 
         const { pid, ...body } = order;
         const $set = {}

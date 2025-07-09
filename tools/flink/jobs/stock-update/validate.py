@@ -5,7 +5,7 @@ import json
 
 error_tag = OutputTag("ERROR", Types.STRING())
 
-valid_tags = ["PURCHASE", "ORDER", "DEDUCT", "RELEASE"]
+valid_tags = ["PURCHASE", "ORDER", "DEDUCT", "RELEASE", "GRN"]
 
 class Validate(ProcessFunction):
     def process_element(self, value, ctx):

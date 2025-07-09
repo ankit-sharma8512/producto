@@ -60,6 +60,40 @@ class ProductController {
             return res.status(error.status).json(error);
         }
     }
+
+    static async getLots(req,res) {
+        try {
+            const {pid} = req.query
+
+            if(!pid)
+                throw new HTTPError(404, 'ERR_NO_ID_PRESENT', "No ID present")
+
+            const result = await product.getLots(req.query)
+
+            return res.status(200).json(result);
+        }
+        catch(err) {
+            const error = err instanceof HTTPError ? err.error : new HTTPError().error;
+            return res.status(error.status).json(error);
+        }
+    }
+
+    static async getAvailable(req,res) {
+        try {
+            const { id } = req.params;
+
+            if(!id)
+                throw new HTTPError(404, 'ERR_NO_ID_PRESENT', "No ID present")
+
+            const result = await product.getAvailable(id)
+
+            return res.status(200).json(result);
+        }
+        catch(err) {
+            const error = err instanceof HTTPError ? err.error : new HTTPError().error;
+            return res.status(error.status).json(error);
+        }
+    }
 }
 
 module.exports = ProductController;
