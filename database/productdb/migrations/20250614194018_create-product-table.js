@@ -6,12 +6,12 @@ exports.up = async function(knex) {
   await knex.raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";');
 
   await knex.schema.createTableIfNotExists("products", table => {
-      table.uuid("id").primary().defaultTo(knex.raw('uuid_generate_v4()'));
-      table.string("brand").notNullable();
-      table.string("name").notNullable();
-      table.string("hsn").notNullable();
-      table.integer("mrp").notNullable();
-      table.boolean("isdeleted").defaultTo(false).notNullable();
+      table.uuid    ("id")        .primary().defaultTo(knex.raw('uuid_generate_v4()'));
+      table.string  ("brand")     .notNullable();
+      table.string  ("name")      .notNullable();
+      table.string  ("hsn")       .notNullable();
+      table.integer ("mrp")       .notNullable();
+      table.boolean ("isdeleted") .defaultTo(false).notNullable();
       table.timestamps(true, true);
   });
 

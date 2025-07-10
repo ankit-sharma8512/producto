@@ -6,8 +6,8 @@ exports.up = async function(knex) {
     await knex.raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";');
 
     await knex.schema.createTableIfNotExists("stock", table => {
-        table.uuid("id").primary().references("id").inTable("products").onDelete("CASCADE");
-        table.integer("available").notNullable();
+        table.uuid   ("id")        .primary().references("id").inTable("products").onDelete("CASCADE");
+        table.integer("available") .notNullable();
         table.timestamps(true, true);
     });
 };

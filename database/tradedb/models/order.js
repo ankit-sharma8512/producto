@@ -16,7 +16,7 @@ class OrderModel {
     }
 
     static async getOrderList(filter = {}, options={}) {
-        const result = await this.#model.find(filter, '-order', options).lean();
+        const result = await this.#model.find(filter, '-order', options).populate('buyerId').lean();
 
         return result;
     }
@@ -28,7 +28,7 @@ class OrderModel {
     }
 
     static async getOrderDetail(id) {
-        const result = await this.#model.findById(id, '-order').lean();
+        const result = await this.#model.findById(id, '-order').populate('buyerId').lean();
 
         if(!result)
             throw new HTTPError(404, 'ERR_NOT_FOUND', 'order not found');

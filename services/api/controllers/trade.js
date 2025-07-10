@@ -240,6 +240,18 @@ class TradeController {
             return res.status(error.status).json(error);
         }
     }
+
+    static async processOrder(req, res) {
+        try {
+            const {id} = req.params;
+            const result = await trade.processOrder(id);
+            return res.status(200).json(result);
+        }
+        catch(err) {
+            const error = err instanceof HTTPError ? err.error : new HTTPError().error;
+            return res.status(error.status).json(error);
+        }
+    }
 }
 
 module.exports = TradeController;

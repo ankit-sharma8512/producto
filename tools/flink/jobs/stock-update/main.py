@@ -9,15 +9,18 @@ from parsers                             import parse_action_message, \
                                                 parse_lot_message, lot_message_type, \
                                                 parse_order_message, order_message_type, \
                                                 parse_stock_update_message, parse_order_update_message, \
-                                                parse_grn_message, grn_message_type
-from processors                          import UpdateStock, ProcessOrder, purchase_tag, order_tag, stock_tag, grn_tag
-from sinks                               import stock_sink, lot_sink, stock_updates_sink, order_updates_sink, grn_sink
+                                                parse_grn_message, grn_message_type, \
+                                                parse_sale_message, sale_message_type
+from processors                          import UpdateStock, ProcessOrder, purchase_tag, order_tag, stock_tag, grn_tag, sale_tag
+from sinks                               import stock_sink, lot_sink, stock_updates_sink, order_updates_sink, grn_sink, sale_sink
 
 def main():
     config = Configuration()
     config.set_string('state.backend.type', 'rocksdb')
     config.set_string('execution.checkpointing.storage', 'filesystem')
-    config.set_string('execution.checkpointing.dir', 'file:///opt/flink/state')
+    config.set_string('execution.checkpointing.dir', 'file:///tmp/flink/state')
+    config.set_string('state.checkpoint-storage', 'filesystem')
+    config.set_string('state.checkpoints.dir', 'file:///tmp/flink/state')
 
     env = StreamExecutionEnvironment.get_execution_environment(config)
     env.set_parallelism(1)
@@ -48,6 +51,7 @@ def main():
 
     # get the purchase stream and add its lots
     purchase_stream = purchase_stream.map(lambda x: parse_lot_message(x), output_type=lot_message_type)
+    # purchase_stream.print()
     purchase_stream.add_sink(lot_sink)
 
     # get the grn stream and sink to postgres
@@ -65,6 +69,12 @@ def main():
     product_update_stream = order_stream.get_side_output(stock_tag)
     product_update_stream = product_update_stream.map(lambda x:parse_stock_update_message(x), output_type=Types.STRING())
     product_update_stream.sink_to(stock_updates_sink)
+
+    # send the sale data to sale table
+    sale_stream = order_stream.get_side_output(sale_tag)
+    # sale_stream.print()
+    sale_stream = sale_stream.map(lambda x:parse_sale_message(x), output_type=sale_message_type)
+    sale_stream.add_sink(sale_sink)
 
     # # finally send the order update to kafka topic
     order_stream = order_stream.map(lambda x:parse_order_update_message(x), output_type=Types.STRING())

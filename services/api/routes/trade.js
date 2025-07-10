@@ -23,7 +23,7 @@ router.get    ('/order/detail/:id',     Trade.getOrderDetail);
 router.post   ('/order/create',         Trade.createOrder);
 router.put    ('/order/update/:id',     Trade.updateOrder);
 router.delete ('/order/delete/:id',     Trade.deleteOrder);
-// router.post   ('/order/complete/:id',   Trade.markComplete);
+router.post   ('/order/process/:id',    Trade.processOrder);
 
 router.get    ("/order/item/:id",      Trade.getOrderItems);
 router.post   ("/order/item/:id",      Trade.addOrderItem);

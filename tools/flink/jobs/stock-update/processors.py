@@ -9,7 +9,8 @@ purchase_tag = OutputTag("PURCHASE", Types.TUPLE([Types.STRING(), Types.STRING()
 order_tag    = OutputTag("ORDER",    Types.TUPLE([Types.STRING(), Types.STRING(), Types.STRING()]))
 grn_tag      = OutputTag("GRN",      Types.TUPLE([Types.STRING(), Types.STRING()]))
 
-stock_tag    = OutputTag("STOCK", Types.TUPLE([Types.STRING(), Types.STRING(), Types.INT(), Types.DOUBLE()]))
+stock_tag    = OutputTag("STOCK", Types.TUPLE([Types.STRING(), Types.STRING(), Types.INT()]))
+sale_tag     = OutputTag("SALE", Types.TUPLE([Types.STRING(), Types.STRING(), Types.STRING()]))
 
 class UpdateStock(KeyedProcessFunction):
     def open(self, runtime_context):
@@ -78,7 +79,7 @@ class UpdateStock(KeyedProcessFunction):
 class ProcessOrder(KeyedProcessFunction):
     def open(self, runtime_context):
         # productid, quantity
-        products_state = ListStateDescriptor("products", Types.TUPLE([Types.STRING(), Types.INT(), Types.DOUBLE()]))
+        products_state = ListStateDescriptor ("products", Types.TUPLE([Types.STRING(), Types.INT(), Types.STRING()]))
         total_state    = ValueStateDescriptor("count", Types.INT())
         seen_state     = ValueStateDescriptor("seen", Types.INT())
         finish_state   = ValueStateDescriptor("finished", Types.BOOLEAN())
@@ -91,16 +92,17 @@ class ProcessOrder(KeyedProcessFunction):
     def handle_reject(self, orderid):
         products = self.products.get()
 
-        for product_id, quantity, rate in products:
-            yield stock_tag, (product_id, "RELEASE", quantity, rate)
+        for product_id, quantity, data in products:
+            yield stock_tag, (product_id, "RELEASE", quantity)
 
         yield (orderid, "REJECTED")
 
     def handle_success(self, orderid):
         products = self.products.get()
 
-        for product_id, quantity, rate in products:
-            yield stock_tag, (product_id, "DEDUCT", quantity, rate)
+        for product_id, quantity, data in products:
+            yield stock_tag, (product_id, "DEDUCT", quantity)
+            yield sale_tag, (product_id, orderid, data)
 
         yield (orderid, "ACCEPTED")
 
@@ -110,7 +112,7 @@ class ProcessOrder(KeyedProcessFunction):
             if self.finished.value(): # skip if already finished
                 return
 
-            orderid, productid, quantity, status, count, rate = value
+            orderid, productid, quantity, status, count, data = value
 
             if self.total.value() is None:
                 self.finished.update(False)
@@ -124,7 +126,7 @@ class ProcessOrder(KeyedProcessFunction):
 
             if status == "RESERVED":
                 seen += 1
-                self.products.add((productid, quantity, rate))
+                self.products.add((productid, quantity, data))
                 self.seen.update(seen)
 
                 if seen == total:

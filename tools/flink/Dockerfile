@@ -14,3 +14,7 @@ RUN curl -L -o /opt/flink/lib/flink-connector-jdbc-3.1.2-1.18.jar \
     https://repo1.maven.org/maven2/org/apache/flink/flink-connector-jdbc/3.1.2-1.18/flink-connector-jdbc-3.1.2-1.18.jar
 
 RUN pip3 install apache-flink==1.18.1
+
+RUN mkdir -p /tmp/flink/state
+RUN chown -R flink:flink /tmp/flink/state
+RUN chmod -R 755 /tmp/flink/state

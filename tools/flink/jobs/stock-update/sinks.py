@@ -2,7 +2,7 @@ from pyflink.datastream.connectors.jdbc  import JdbcSink, JdbcConnectionOptions,
 from pyflink.datastream.connectors.kafka import KafkaSink, KafkaRecordSerializationSchema, DeliveryGuarantee
 from pyflink.common.serialization        import SimpleStringSchema
 
-from parsers                             import stock_message_type, lot_message_type, grn_message_type
+from parsers                             import stock_message_type, lot_message_type, grn_message_type, sale_message_type
 
 import os
 
@@ -34,9 +34,9 @@ stock_sink = JdbcSink.sink(
 
 lot_sink = JdbcSink.sink(
     '''
-        INSERT INTO lots (productid, purchaseid, date, quantity, mfgdate, expdate, price, type)
-        values (?::uuid, ?, ?, ?, ?, ?, ?, ?)
-        ON CONFLICT (productid, purchaseid, type)
+        INSERT INTO lots (productid, purchaseid, date, quantity, mfgdate, expdate, price)
+        values (?::uuid, ?, ?::timestamptz, ?, ?::timestamptz, ?::timestamptz, ?)
+        ON CONFLICT (productid, purchaseid)
         DO NOTHING;
     ''',
     lot_message_type,
@@ -59,6 +59,25 @@ grn_sink = JdbcSink.sink(
         values (?::uuid, ?, ?);
     ''',
     grn_message_type,
+    JdbcConnectionOptions.JdbcConnectionOptionsBuilder()
+        .with_url(f'jdbc:postgresql://{DB_HOST}:5432/{DB_NAME}')
+        .with_user_name(DB_USER)
+        .with_password(DB_PASS)
+        .with_driver_name('org.postgresql.Driver')
+        .build(),
+    JdbcExecutionOptions.builder()
+        .with_batch_interval_ms(1000)
+        .with_batch_size(1)
+        .with_max_retries(10)
+        .build()
+)
+
+sale_sink = JdbcSink.sink(
+    '''
+        INSERT INTO sale (productid, orderid, date, quantity, rate, cgst, sgst, discount)
+        values (?::uuid, ?, ?::timestamptz, ?, ?, ?, ?, ?);
+    ''',
+    sale_message_type,
     JdbcConnectionOptions.JdbcConnectionOptionsBuilder()
         .with_url(f'jdbc:postgresql://{DB_HOST}:5432/{DB_NAME}')
         .with_user_name(DB_USER)

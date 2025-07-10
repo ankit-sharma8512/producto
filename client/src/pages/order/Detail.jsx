@@ -1,5 +1,5 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useBillDetail, useDeleteBill } from "../../hooks/billing-api";
+import { useBillDetail, useDeleteBill, useProcessBill } from "../../hooks/billing-api";
 import { Alert, App, Button, Flex, Popconfirm, Space, Spin, Typography } from "antd";
 import moment from "moment";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
@@ -14,6 +14,7 @@ function OrderDetail() {
     const { data, isLoading, isError } = useBillDetail(id);
     const deleteBill                   = useDeleteBill()
     const { message }                  = App.useApp()
+    const processBill                  = useProcessBill(id);
 
     async function deleteB(id) {
         try {
@@ -21,7 +22,17 @@ function OrderDetail() {
             message.success('Order deleted sucessfully');
             navigate('/order')
         } catch {
-            message.error('Failed to delete bill')
+            message.error('Failed to delete order')
+        }
+    }
+
+    async function processB() {
+        try {
+            await processBill.mutateAsync(id);
+            message.success('Order processed sucessfully');
+            // navigate('/order')
+        } catch {
+            message.error('Failed to process order')
         }
     }
 
@@ -61,8 +72,8 @@ function OrderDetail() {
                 <Button icon={<DownloadOutlined />} onClick={downloadRecieveNote} loading={isNoteFetching}>Delivery Note</Button> */}
                     {
                         data.state === 'DRAFT' &&
-                        <Popconfirm onConfirm={() => updateBillState('delivered')} title="Are you sure" description='This will subtract order quantity from current stock'>
-                            <Button type='primary'>Mark Delivered</Button>
+                        <Popconfirm onConfirm={processB} title="Are you sure" description='This will subtract order quantity from current stock'>
+                            <Button type='primary'>Process Order</Button>
                         </Popconfirm>
                     }
                 </Space>

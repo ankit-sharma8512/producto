@@ -171,12 +171,6 @@ function OrderManager({ billId, changeAllowed, returnAllowed }) {
       width: 80
     },
     {
-      title: 'Available',
-      align: 'right',
-      dataIndex: 'available',
-      width: 100
-    },
-    {
       title: 'Quantity',
       dataIndex: 'quantity',
       align: 'right',
@@ -184,7 +178,7 @@ function OrderManager({ billId, changeAllowed, returnAllowed }) {
       width: 110
     },
     {
-      title: 'Status',
+      title: 'Availability',
       align: 'center',
       dataIndex: ['pid', 'id'],
       render: (v, row) => (<ProductAvailable id={v} status limit={row.quantity} />),

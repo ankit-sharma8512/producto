@@ -26,8 +26,8 @@ export async function updateBill({ id, ...body }) {
   return data
 }
 
-export async function completeBill(id) {
-  const { data } = await Client.post(`/trade/order/complete/${id}`);
+export async function processBill(id) {
+  const { data } = await Client.post(`/trade/order/process/${id}`);
   return data
 }
 

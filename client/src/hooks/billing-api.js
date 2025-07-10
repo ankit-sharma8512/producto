@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { getBills, createBill, getBillDetail, updateBill, deleteBill, getBillOrders, addBillOrder, removeBillOrder, updateBillOrder, updateBillState } from '../services/billing';
+import { getBills, createBill, getBillDetail, updateBill, deleteBill, getBillOrders, addBillOrder, removeBillOrder, updateBillOrder, updateBillState, processBill } from '../services/billing';
 
 export function useBillList(query, options) {
   const result = useQuery(['bill', query], () => getBills(query), options);
@@ -93,6 +93,20 @@ export function useUpdateBill(id) {
 
   return mutation
 }
+
+export function useProcessBill(id) {
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation(() => processBill(id), {
+    onSuccess: () => {
+      queryClient.invalidateQueries('bill')
+      queryClient.invalidateQueries(['bill', id])
+    }
+  })
+
+  return mutation
+}
+
 
 export function useUpdateBillState(id) {
   const queryClient = useQueryClient();

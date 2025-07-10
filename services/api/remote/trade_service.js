@@ -127,6 +127,12 @@ methods.removeOrderItem = async function (id, pid) {
     return res;
 }
 
+methods.processOrder = async function (id) {
+    const res = await client.post(`/order/process/${id}`);
+
+    return res;
+}
+
 methods.listBuyer = async function(query = {}) {
     const res = await client.get(`/trader/list/buyer?${new URLSearchParams(query).toString()}`);
 

@@ -24,8 +24,8 @@ def parse_stock_message(data):
         return
 
 lot_message_type = Types.ROW_NAMED(
-    ['productid', 'purchaseid', 'date', 'quantity', 'mfgdate', 'expdate', 'price', 'type'],
-    [Types.STRING(), Types.STRING(), Types.STRING(), Types.INT(), Types.SQL_TIMESTAMP(), Types.SQL_TIMESTAMP(), Types.INT(), Types.STRING()]
+    ['productid', 'purchaseid', 'date', 'quantity', 'mfgdate', 'expdate', 'price'],
+    [Types.STRING(), Types.STRING(), Types.STRING(), Types.INT(), Types.STRING(), Types.STRING(), Types.FLOAT()]
 )
 def parse_lot_message(data):
     try:
@@ -37,31 +37,29 @@ def parse_lot_message(data):
             quantity   = int(parsed['quantity']),
             mfgdate    = parsed['mfgDate'],
             expdate    = parsed['expDate'],
-            price      = int(parsed['price']),
-            type       = parsed.get('type', 'purchase')
+            price      = float(parsed['price']),
         )
     except Exception as e:
         print("Bad stock update message received")
         return
 
-# order_id, product_id, quantity, state, count, rate [count-> total count of orders]
-order_message_type = Types.TUPLE([Types.STRING(), Types.STRING(), Types.INT(), Types.STRING(), Types.INT(), Types.DOUBLE()])
+# order_id, product_id, quantity, state, count, data [count-> total count of orders]
+order_message_type = Types.TUPLE([Types.STRING(), Types.STRING(), Types.INT(), Types.STRING(), Types.INT(), Types.STRING()])
 def parse_order_message(data):
     try:
         parsed = json.loads(data[2])
-        return (parsed['orderId'], data[0], parsed['quantity'], data[1], parsed['count'], parsed['rate'])
+        return (parsed['orderId'], data[0], int(parsed['quantity']), data[1], int(parsed['count']), data[2])
     except Exception as e:
         print("Bad order update message received")
         return
 
 def parse_stock_update_message(data):
     try:
-        pid, action, quantity, rate = data
+        pid, action, quantity = data
         return json.dumps({
             "pid"      : pid,
             "action"   : action,
-            "quantity" : quantity,
-            "rate"     : rate
+            "quantity" : quantity
         })
     except Exception as e:
         return None
@@ -86,5 +84,25 @@ def parse_grn_message(data):
     try:
         parsed = json.loads(data[1])
         return Row(productid=data[0], quantity=int(parsed['quantity']), type=parsed['type'])
+    except Exception as e:
+        return None
+    
+sale_message_type = Types.ROW_NAMED(
+    ['productid', 'orderid', 'date', 'quantity', 'rate', 'cgst', 'sgst', 'discount'],
+    [Types.STRING(), Types.STRING(), Types.STRING(), Types.INT(), Types.DOUBLE(), Types.DOUBLE(), Types.DOUBLE(), Types.DOUBLE()]
+)
+def parse_sale_message(data):
+    try:
+        parsed = json.loads(data[2])
+        return Row(
+            productid = data[0],
+            orderid   = data[1],
+            date      = parsed['date'],
+            quantity  = int(parsed['quantity']),
+            rate      = float(parsed['rate']),
+            cgst      = float(parsed['cgst']),
+            sgst      = float(parsed['sgst']),
+            discount  = float(parsed['discount'])
+        )
     except Exception as e:
         return None

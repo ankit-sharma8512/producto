@@ -164,7 +164,7 @@ services:
       - DB_NAME=${PRODUCT_DB_NAME:?}
     volumes:
       - ../tools/flink/jobs:/producto/flink
-      - flink-state:/opt/flink/state
+      - flink-state:/tmp/flink/state
 
   taskmanager:
     container_name: taskmanager
@@ -184,7 +184,7 @@ services:
       - DB_PASSWORD=${PRODUCT_DB_PASSWORD:?}
       - DB_NAME=${PRODUCT_DB_NAME:?}
     volumes:
-      - flink-state:/opt/flink/state
+      - flink-state:/tmp/flink/state
 
   nginx:
     container_name: nginx

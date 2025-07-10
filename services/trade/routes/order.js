@@ -16,6 +16,7 @@ router.post  ("/item/:_id",      OrderController.addOrderItem);
 router.put   ("/item/:_id",      OrderController.updateOrderItem);
 router.delete("/item/:_id/:pid", OrderController.removeOrderItem);
 
+router.post  ("/process/:_id", OrderController.processOrder);
 // router.get("/test2", OrderController.test2)
 
 module.exports = router;
