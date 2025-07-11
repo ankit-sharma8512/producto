@@ -166,8 +166,28 @@ services:
       - ../tools/flink/jobs:/producto/flink
       - flink-state:/tmp/flink/state
 
-  taskmanager:
-    container_name: taskmanager
+  taskmanager-0:
+    container_name: taskmanager-0
+    image: pyflink:latest
+    command: taskmanager
+    networks:
+      - producto
+    depends_on:
+      - jobmanager
+    environment:
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: jobmanager
+        taskmanager.numberOfTaskSlots: 2
+      - DB_HOST=${PRODUCT_DB_HOST:?}
+      - DB_USER=${PRODUCT_DB_USER:?}
+      - DB_PASSWORD=${PRODUCT_DB_PASSWORD:?}
+      - DB_NAME=${PRODUCT_DB_NAME:?}
+    volumes:
+      - flink-state:/tmp/flink/state
+
+  taskmanager-1:
+    container_name: taskmanager-1
     image: pyflink:latest
     command: taskmanager
     networks:

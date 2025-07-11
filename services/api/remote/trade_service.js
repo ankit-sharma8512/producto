@@ -133,6 +133,22 @@ methods.processOrder = async function (id) {
     return res;
 }
 
+methods.executeReturn = async function (id) {
+    const res = await client.post(`/order/return/${id}`);
+
+    return res;
+}
+
+methods.addPayment = async function (id, body) {
+    const res = await client.post(`/order/payment/${id}`, body);
+
+    return res;
+}
+
+
+
+// Trader APis
+
 methods.listBuyer = async function(query = {}) {
     const res = await client.get(`/trader/list/buyer?${new URLSearchParams(query).toString()}`);
 

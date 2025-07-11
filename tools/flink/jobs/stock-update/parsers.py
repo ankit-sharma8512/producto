@@ -106,3 +106,18 @@ def parse_sale_message(data):
         )
     except Exception as e:
         return None
+    
+return_message_type = Types.ROW_NAMED(
+    ['returned', 'productid', 'orderid'],
+    [Types.INT(), Types.STRING(), Types.STRING()]
+)
+def parse_return_message(data):
+    try:
+        parsed = json.loads(data[1])
+        return Row(
+            returned  = int(parsed['quantity']),
+            productid = data[0],
+            orderid   = parsed['orderId']
+        )
+    except Exception as e:
+        return None

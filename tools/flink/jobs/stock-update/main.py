@@ -10,9 +10,10 @@ from parsers                             import parse_action_message, \
                                                 parse_order_message, order_message_type, \
                                                 parse_stock_update_message, parse_order_update_message, \
                                                 parse_grn_message, grn_message_type, \
-                                                parse_sale_message, sale_message_type
-from processors                          import UpdateStock, ProcessOrder, purchase_tag, order_tag, stock_tag, grn_tag, sale_tag
-from sinks                               import stock_sink, lot_sink, stock_updates_sink, order_updates_sink, grn_sink, sale_sink
+                                                parse_sale_message, sale_message_type, \
+                                                parse_return_message, return_message_type
+from processors                          import UpdateStock, ProcessOrder, purchase_tag, order_tag, stock_tag, grn_tag, sale_tag, return_tag
+from sinks                               import stock_sink, lot_sink, stock_updates_sink, order_updates_sink, grn_sink, sale_sink, return_sink
 
 def main():
     config = Configuration()
@@ -48,15 +49,19 @@ def main():
     purchase_stream = update_stream.get_side_output(purchase_tag)
     order_stream    = update_stream.get_side_output(order_tag)
     grn_stream      = update_stream.get_side_output(grn_tag)
+    return_stream   = update_stream.get_side_output(return_tag)
 
     # get the purchase stream and add its lots
     purchase_stream = purchase_stream.map(lambda x: parse_lot_message(x), output_type=lot_message_type)
-    # purchase_stream.print()
     purchase_stream.add_sink(lot_sink)
 
     # get the grn stream and sink to postgres
     grn_stream = grn_stream.map(lambda x:parse_grn_message(x), output_type=grn_message_type)
     grn_stream.add_sink(grn_sink)
+
+    # send updates to sale lot to update return
+    return_stream = return_stream.map(lambda x:parse_return_message(x), output_type=return_message_type)
+    return_stream.add_sink(return_sink)
 
     # get the order stream and send it to order aggregator
     order_stream = order_stream.map(lambda x: parse_order_message(x), output_type=order_message_type)

@@ -8,6 +8,7 @@ import json
 purchase_tag = OutputTag("PURCHASE", Types.TUPLE([Types.STRING(), Types.STRING()]))
 order_tag    = OutputTag("ORDER",    Types.TUPLE([Types.STRING(), Types.STRING(), Types.STRING()]))
 grn_tag      = OutputTag("GRN",      Types.TUPLE([Types.STRING(), Types.STRING()]))
+return_tag   = OutputTag("RETURN",   Types.TUPLE([Types.STRING(), Types.STRING()]))
 
 stock_tag    = OutputTag("STOCK", Types.TUPLE([Types.STRING(), Types.STRING(), Types.INT()]))
 sale_tag     = OutputTag("SALE", Types.TUPLE([Types.STRING(), Types.STRING(), Types.STRING()]))
@@ -45,6 +46,13 @@ class UpdateStock(KeyedProcessFunction):
                 self.available.update(available)
 
                 yield grn_tag, (product_id, data)
+                yield (product_id, available, data) # sink for available update
+
+            elif action == "RETURN":
+                available += quantity
+
+                self.available.update(available)
+                yield return_tag, (product_id, data)
                 yield (product_id, available, data) # sink for available update
 
             elif action == "ORDER":

@@ -178,6 +178,9 @@ class OrderController {
         try {
             const {_id} = req.params;
 
+            // need to verify if the order is already processed here
+            // ask whther sale lots are already present for this order.. if yes.. ignore kafka push again
+
             const order   = await OrderModel.getOrderDetail(_id);
             const results = await OrderModel.getOrderItems(_id);
 
@@ -192,11 +195,71 @@ class OrderController {
 
             // console.log(messages)
 
-            await TProducer.publish(STOCK_TOPIC, messages);
+            if(messages && messages?.length > 0)
+                await TProducer.publish(STOCK_TOPIC, messages);
+
+            await OrderModel.markProcessing(_id);
 
             return res.json(messages);
         }
         catch(err) {
+            console.log(err)
+            const error = err instanceof HTTPError ? err.error : new HTTPError().error;
+            return res.status(error.status).json(error);
+        }
+    }
+
+    static async markProcessed(message) {
+        try {
+            const data = JSON.parse(message)
+            if(data.state === 'ACCEPTED')
+                await OrderModel.markProcessed(data.orderId);
+            else
+                await OrderModel.markRejected(data.orderId);
+        }
+        catch(e) {
+            console.log(err)
+            // TODO: push to some dead letter queue to be processed later..
+            console.log("Failed to mark order processed");
+        }
+    }
+
+    static async executeReturn(req, res) {
+        try {
+            const {_id} = req.params;
+
+            const results = await OrderModel.getReturnItems(_id);
+            const messages = results?.map((p,i) => ({
+                ...p,
+                orderId  : _id,
+                action   : "RETURN"
+            }))
+            .map(m => ({ key: m.pid, value: JSON.stringify(m) }));
+
+            if(messages && messages?.length > 0)
+                await TProducer.publish(STOCK_TOPIC, messages);
+
+            await OrderModel.markReturned(_id);
+
+            return res.json(results);
+        }
+        catch(err) {
+            console.log(err)
+            const error = err instanceof HTTPError ? err.error : new HTTPError().error;
+            return res.status(error.status).json(error);
+        }
+    }
+
+    static async addPayment(req, res) {
+        try {
+            const {_id}    = req.params;
+            const {amount} = req.body
+
+            const result = await OrderModel.addPayment(_id, amount || 0);
+
+            return res.json(result);
+        }
+        catch(e) {
             console.log(err)
             const error = err instanceof HTTPError ? err.error : new HTTPError().error;
             return res.status(error.status).json(error);

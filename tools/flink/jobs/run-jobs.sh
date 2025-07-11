@@ -1,4 +1,6 @@
-SAVEPOINT_LOCATION=/tmp/flink/state/state_sp
+#!/bin/bash
+
+SAVEPOINT_LOCATION=/tmp/flink/state
 FLINK_JOB_NAME="Stock Processor"
 JOB_MANAGER_URL="http://localhost:8081"
 PY_FILES="stock-update/kafka_source.py,stock-update/route.py,stock-update/parsers.py,stock-update/processors.py,stock-update/sinks.py,stock-update/validate.py"

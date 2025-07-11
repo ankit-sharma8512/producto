@@ -252,6 +252,30 @@ class TradeController {
             return res.status(error.status).json(error);
         }
     }
+
+    static async executeReturn(req, res) {
+        try {
+            const {id} = req.params;
+            const result = await trade.executeReturn(id);
+            return res.status(200).json(result);
+        }
+        catch(err) {
+            const error = err instanceof HTTPError ? err.error : new HTTPError().error;
+            return res.status(error.status).json(error);
+        }
+    }
+
+    static async addPayment(req, res) {
+        try {
+            const {id} = req.params;
+            const result = await trade.addPayment(id, req.body);
+            return res.status(200).json(result);
+        }
+        catch(err) {
+            const error = err instanceof HTTPError ? err.error : new HTTPError().error;
+            return res.status(error.status).json(error);
+        }
+    }
 }
 
 module.exports = TradeController;

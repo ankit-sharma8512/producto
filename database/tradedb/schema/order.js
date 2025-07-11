@@ -23,13 +23,19 @@ const Order = {
 const OrderSchema = new Schema({
     billNo  : { type: String, required: true, unique: true },
     date    : { type: Date, required: true, default: new Date() },
-    state   : { type: String, enum: ["DRAFT", "DELIVERED", "COMPLETED"], default: "DRAFT" },
+    state   : { type: String, enum: ["DRAFT", "PROCESSING", "REJECTED", "PROCESSED", "COMPLETED"], default: "DRAFT" },
     return  : { type: Boolean, default: false },
 
     buyerId : { type : Schema.Types.ObjectId, ref : 'trader', index : true },
     buyer   : { type : Buyer, default : null, required : function() { return !Boolean(this.buyerId) }},
 
-    order   : [{ type: Order }]
+    order   : [{ type: Order }],
+
+    payment : {
+        _id      : false,
+        total    : { type: Number, required: true, default : 0 },
+        received : { type: Number, required: true, default : 0 },
+    }
 }, { timestamps: true });
 
 module.exports = OrderSchema;

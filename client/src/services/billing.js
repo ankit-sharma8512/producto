@@ -31,6 +31,16 @@ export async function processBill(id) {
   return data
 }
 
+export async function returnBill(id) {
+  const { data } = await Client.post(`/trade/order/return/${id}`);
+  return data
+}
+
+export async function addPayment(id, body) {
+  const { data } = await Client.post(`/trade/order/payment/${id}`, body);
+  return data
+}
+
 export async function deleteBill(id) {
   const { data } = await Client.delete(`/trade/order/delete/${id}`);
   return data

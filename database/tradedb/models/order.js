@@ -106,7 +106,43 @@ class OrderModel {
         return result;
     }
 
-    
+    static async markProcessing(id) {
+        const result = await this.#model.findByIdAndUpdate(id, { state : "PROCESSING" }, { returnDocument:'after', lean: true });
+
+        return result;
+    }
+
+    static async markRejected(id) {
+        const result = await this.#model.findByIdAndUpdate(id, { state : "REJECTED" }, { returnDocument:'after', lean: true });
+
+        return result;
+    }
+
+    static async markProcessed(id) {
+        const result = await this.#model.findByIdAndUpdate(id, { state : "PROCESSED" }, { returnDocument:'after', lean: true });
+
+        return result;
+    }
+
+    static async getReturnItems(id) {
+        const { order } = await this.getOrderItems(id);
+
+        return order?.filter(o => o.return > 0).map(o => ({ pid: o.pid, quantity: o.return }));
+    }
+
+    static async markReturned(id) {
+        const { order } = await this.getOrderItems(id);
+
+        const total  = order?.reduce((agg, curr) => agg + ((100 - curr.discount) / 100) * curr.rate * (curr.quantity - curr.return), 0);
+        const result = await this.#model.findByIdAndUpdate(id, { return : true, "payment.total" : total }, { returnDocument:'after', lean: true });
+
+        return result;
+    }
+
+    static async addPayment(id, amount) {
+        const result = await this.#model.findByIdAndUpdate(id, { $inc: {"payment.received" : amount} }, { returnDocument:'after', lean: true });
+        return result;
+    }
 }
 
 module.exports = OrderModel;

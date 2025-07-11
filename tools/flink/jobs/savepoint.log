@@ -682,3 +682,1066 @@ WARNING: Unknown module: jdk.compiler specified to --add-exports
 WARNING: Unknown module: jdk.compiler specified to --add-exports
 WARNING: Unknown module: jdk.compiler specified to --add-exports
 WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 04:28:31 PM UTC 2025: Triggering savepoint for job 5a749f86e774952fd9352041eb601661...
+Fri Jul 11 04:28:38 PM UTC 2025: Savepoint failed or incomplete:
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Triggering savepoint for job 5a749f86e774952fd9352041eb601661.
+Waiting for response...
+
+------------------------------------------------------------
+ The program finished with the following exception:
+
+org.apache.flink.util.FlinkException: Triggering a savepoint for the job 5a749f86e774952fd9352041eb601661 failed.
+	at org.apache.flink.client.cli.CliFrontend.triggerSavepoint(CliFrontend.java:815)
+	at org.apache.flink.client.cli.CliFrontend.lambda$savepoint$8(CliFrontend.java:783)
+	at org.apache.flink.client.cli.CliFrontend.runClusterAction(CliFrontend.java:1041)
+	at org.apache.flink.client.cli.CliFrontend.savepoint(CliFrontend.java:779)
+	at org.apache.flink.client.cli.CliFrontend.parseAndRun(CliFrontend.java:1113)
+	at org.apache.flink.client.cli.CliFrontend.lambda$mainInternal$9(CliFrontend.java:1189)
+	at org.apache.flink.runtime.security.contexts.NoOpSecurityContext.runSecured(NoOpSecurityContext.java:28)
+	at org.apache.flink.client.cli.CliFrontend.mainInternal(CliFrontend.java:1189)
+	at org.apache.flink.client.cli.CliFrontend.main(CliFrontend.java:1157)
+Caused by: java.util.concurrent.CompletionException: java.util.concurrent.CompletionException: org.apache.flink.runtime.checkpoint.CheckpointException: Checkpoint triggering task Source: Custom Source -> PROCESS -> (Map -> Sink: Print to Std. Out, Map, _stream_key_by_map_operator) (1/1) of job 5a749f86e774952fd9352041eb601661 is not being executed at the moment. Aborting checkpoint. Failure reason: Not all required tasks are currently running.
+	at java.base/java.util.concurrent.CompletableFuture.encodeRelay(Unknown Source)
+	at java.base/java.util.concurrent.CompletableFuture.completeRelay(Unknown Source)
+	at java.base/java.util.concurrent.CompletableFuture$UniRelay.tryFire(Unknown Source)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(Unknown Source)
+	at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(Unknown Source)
+	at org.apache.flink.runtime.rpc.pekko.PekkoInvocationHandler.lambda$invokeRpc$1(PekkoInvocationHandler.java:261)
+	at java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(Unknown Source)
+	at java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(Unknown Source)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(Unknown Source)
+	at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(Unknown Source)
+	at org.apache.flink.util.concurrent.FutureUtils.doForward(FutureUtils.java:1265)
+	at org.apache.flink.runtime.concurrent.ClassLoadingUtils.lambda$null$1(ClassLoadingUtils.java:93)
+	at org.apache.flink.runtime.concurrent.ClassLoadingUtils.runWithContextClassLoader(ClassLoadingUtils.java:68)
+	at org.apache.flink.runtime.concurrent.ClassLoadingUtils.lambda$guardCompletionWithContextClassLoader$2(ClassLoadingUtils.java:92)
+	at java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(Unknown Source)
+	at java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(Unknown Source)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(Unknown Source)
+	at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(Unknown Source)
+	at org.apache.flink.runtime.concurrent.pekko.ScalaFutureUtils$1.onComplete(ScalaFutureUtils.java:45)
+	at org.apache.pekko.dispatch.OnComplete.internal(Future.scala:309)
+	at org.apache.pekko.dispatch.OnComplete.internal(Future.scala:307)
+	at org.apache.pekko.dispatch.japi$CallbackBridge.apply(Future.scala:234)
+	at org.apache.pekko.dispatch.japi$CallbackBridge.apply(Future.scala:231)
+	at scala.concurrent.impl.CallbackRunnable.run(Promise.scala:64)
+	at org.apache.flink.runtime.concurrent.pekko.ScalaFutureUtils$DirectExecutionContext.execute(ScalaFutureUtils.java:65)
+	at scala.concurrent.impl.CallbackRunnable.executeWithValue(Promise.scala:72)
+	at scala.concurrent.impl.Promise$DefaultPromise.$anonfun$tryComplete$1(Promise.scala:288)
+	at scala.concurrent.impl.Promise$DefaultPromise.$anonfun$tryComplete$1$adapted(Promise.scala:288)
+	at scala.concurrent.impl.Promise$DefaultPromise.tryComplete(Promise.scala:288)
+	at org.apache.pekko.pattern.PromiseActorRef.$bang(AskSupport.scala:629)
+	at org.apache.pekko.pattern.PipeToSupport$PipeableFuture$$anonfun$pipeTo$1.applyOrElse(PipeToSupport.scala:35)
+	at org.apache.pekko.pattern.PipeToSupport$PipeableFuture$$anonfun$pipeTo$1.applyOrElse(PipeToSupport.scala:33)
+	at scala.concurrent.Future.$anonfun$andThen$1(Future.scala:536)
+	at scala.concurrent.impl.Promise.liftedTree1$1(Promise.scala:33)
+	at scala.concurrent.impl.Promise.$anonfun$transform$1(Promise.scala:33)
+	at scala.concurrent.impl.CallbackRunnable.run(Promise.scala:64)
+	at org.apache.pekko.dispatch.BatchingExecutor$AbstractBatch.processBatch(BatchingExecutor.scala:73)
+	at org.apache.pekko.dispatch.BatchingExecutor$BlockableBatch.$anonfun$run$1(BatchingExecutor.scala:110)
+	at scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.java:23)
+	at scala.concurrent.BlockContext$.withBlockContext(BlockContext.scala:85)
+	at org.apache.pekko.dispatch.BatchingExecutor$BlockableBatch.run(BatchingExecutor.scala:110)
+	at org.apache.pekko.dispatch.TaskInvocation.run(AbstractDispatcher.scala:59)
+	at org.apache.pekko.dispatch.ForkJoinExecutorConfigurator$PekkoForkJoinTask.exec(ForkJoinExecutorConfigurator.scala:57)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(Unknown Source)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(Unknown Source)
+	at java.base/java.util.concurrent.ForkJoinPool.scan(Unknown Source)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(Unknown Source)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(Unknown Source)
+Caused by: org.apache.flink.runtime.checkpoint.CheckpointException: org.apache.flink.runtime.checkpoint.CheckpointException: Checkpoint triggering task Source: Custom Source -> PROCESS -> (Map -> Sink: Print to Std. Out, Map, _stream_key_by_map_operator) (1/1) of job 5a749f86e774952fd9352041eb601661 is not being executed at the moment. Aborting checkpoint. Failure reason: Not all required tasks are currently running.
+	at org.apache.flink.runtime.checkpoint.DefaultCheckpointPlanCalculator.checkTasksStarted(DefaultCheckpointPlanCalculator.java:143)
+	at org.apache.flink.runtime.checkpoint.DefaultCheckpointPlanCalculator.lambda$calculateCheckpointPlan$1(DefaultCheckpointPlanCalculator.java:105)
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(Unknown Source)
+	at org.apache.flink.runtime.rpc.pekko.PekkoRpcActor.lambda$handleRunAsync$4(PekkoRpcActor.java:451)
+	at org.apache.flink.runtime.concurrent.ClassLoadingUtils.runWithContextClassLoader(ClassLoadingUtils.java:68)
+	at org.apache.flink.runtime.rpc.pekko.PekkoRpcActor.handleRunAsync(PekkoRpcActor.java:451)
+	at org.apache.flink.runtime.rpc.pekko.PekkoRpcActor.handleRpcMessage(PekkoRpcActor.java:218)
+	at org.apache.flink.runtime.rpc.pekko.FencedPekkoRpcActor.handleRpcMessage(FencedPekkoRpcActor.java:85)
+	at org.apache.flink.runtime.rpc.pekko.PekkoRpcActor.handleMessage(PekkoRpcActor.java:168)
+	at org.apache.pekko.japi.pf.UnitCaseStatement.apply(CaseStatements.scala:33)
+	at org.apache.pekko.japi.pf.UnitCaseStatement.apply(CaseStatements.scala:29)
+	at scala.PartialFunction.applyOrElse(PartialFunction.scala:127)
+	at scala.PartialFunction.applyOrElse$(PartialFunction.scala:126)
+	at org.apache.pekko.japi.pf.UnitCaseStatement.applyOrElse(CaseStatements.scala:29)
+	at scala.PartialFunction$OrElse.applyOrElse(PartialFunction.scala:175)
+	at scala.PartialFunction$OrElse.applyOrElse(PartialFunction.scala:176)
+	at scala.PartialFunction$OrElse.applyOrElse(PartialFunction.scala:176)
+	at org.apache.pekko.actor.Actor.aroundReceive(Actor.scala:547)
+	at org.apache.pekko.actor.Actor.aroundReceive$(Actor.scala:545)
+	at org.apache.pekko.actor.AbstractActor.aroundReceive(AbstractActor.scala:229)
+	at org.apache.pekko.actor.ActorCell.receiveMessage(ActorCell.scala:590)
+	at org.apache.pekko.actor.ActorCell.invoke(ActorCell.scala:557)
+	at org.apache.pekko.dispatch.Mailbox.processMailbox(Mailbox.scala:280)
+	at org.apache.pekko.dispatch.Mailbox.run(Mailbox.scala:241)
+	at org.apache.pekko.dispatch.Mailbox.exec(Mailbox.scala:253)
+	... 5 more
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 04:30:43 PM UTC 2025: No running Flink job found, skipping savepoint
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 04:32:46 PM UTC 2025: No running Flink job found, skipping savepoint
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 04:34:48 PM UTC 2025: No running Flink job found, skipping savepoint
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 04:36:52 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 04:36:55 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 04:36:55 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-d3402a75900c
+Fri Jul 11 04:36:55 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-cc1463-f712d070b000
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 04:38:58 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 04:39:00 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 04:39:00 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-2b98b2eb44da
+Fri Jul 11 04:39:00 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-d3402a75900c
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 04:41:03 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 04:41:06 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 04:41:06 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-e3b2b31aab8f
+Fri Jul 11 04:41:06 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-2b98b2eb44da
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 04:43:09 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 04:43:11 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 04:43:11 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-0ff4bc9b80e4
+Fri Jul 11 04:43:11 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-e3b2b31aab8f
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 04:45:14 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 04:45:17 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 04:45:17 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-0cde0a63af8c
+Fri Jul 11 04:45:17 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-0ff4bc9b80e4
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 04:47:20 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 04:47:22 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 04:47:22 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-7105cc0179da
+Fri Jul 11 04:47:22 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-0cde0a63af8c
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 04:49:25 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 04:49:28 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 04:49:28 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-d24a6bb6f740
+Fri Jul 11 04:49:28 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-7105cc0179da
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 04:51:31 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 04:51:33 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 04:51:33 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-d3cd8ca27d33
+Fri Jul 11 04:51:33 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-d24a6bb6f740
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 04:53:36 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 04:53:38 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 04:53:39 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-e3f4db2c0b0e
+Fri Jul 11 04:53:39 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-d3cd8ca27d33
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 04:55:41 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 04:55:44 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 04:55:44 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-f47ad87a41a6
+Fri Jul 11 04:55:44 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-e3f4db2c0b0e
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 04:57:47 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 04:57:49 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 04:57:49 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-11c9500e056f
+Fri Jul 11 04:57:49 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-f47ad87a41a6
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 04:59:52 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 04:59:54 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 04:59:54 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-b1b29c0861f1
+Fri Jul 11 04:59:54 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-11c9500e056f
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 05:01:58 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 05:02:01 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 05:02:01 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-7850ad01500c
+Fri Jul 11 05:02:01 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-b1b29c0861f1
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 05:04:03 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 05:04:06 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 05:04:06 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-60d319a5e8cd
+Fri Jul 11 05:04:06 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-7850ad01500c
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 05:06:09 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 05:06:11 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 05:06:11 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-92e65048e15b
+Fri Jul 11 05:06:11 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-60d319a5e8cd
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 05:08:14 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 05:08:16 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 05:08:16 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-f424e5d0092c
+Fri Jul 11 05:08:16 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-92e65048e15b
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 05:10:19 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 05:10:22 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 05:10:22 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-4ec2c2c3c011
+Fri Jul 11 05:10:22 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-f424e5d0092c
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 05:12:24 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 05:12:27 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 05:12:27 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-702960a8b708
+Fri Jul 11 05:12:27 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-4ec2c2c3c011
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 05:14:30 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 05:14:32 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 05:14:32 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-0f5e73df9436
+Fri Jul 11 05:14:32 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-702960a8b708
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 05:16:35 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 05:16:38 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 05:16:38 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-62baa0479375
+Fri Jul 11 05:16:38 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-0f5e73df9436
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 05:18:40 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 05:18:43 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 05:18:43 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-2c0bc2d0a058
+Fri Jul 11 05:18:43 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-62baa0479375
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 05:20:45 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 05:20:48 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 05:20:48 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-d168f10089fc
+Fri Jul 11 05:20:48 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-2c0bc2d0a058
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 05:22:51 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 05:22:53 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 05:22:53 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-2337a08c00f7
+Fri Jul 11 05:22:53 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-d168f10089fc
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 05:24:56 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 05:24:58 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 05:24:58 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-c8d8ec6e841c
+Fri Jul 11 05:24:58 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-2337a08c00f7
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 05:27:01 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 05:27:04 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 05:27:04 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-25d2f01aa5c9
+Fri Jul 11 05:27:04 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-c8d8ec6e841c
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 05:29:06 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 05:29:09 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 05:29:09 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-66acacf3c50f
+Fri Jul 11 05:29:09 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-25d2f01aa5c9
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 05:31:12 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 05:31:14 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 05:31:14 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-17d708da2636
+Fri Jul 11 05:31:14 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-66acacf3c50f
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 05:33:17 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 05:33:20 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 05:33:20 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-6860a56cfd78
+Fri Jul 11 05:33:20 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-17d708da2636
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 05:35:22 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 05:35:25 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 05:35:25 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-19c4400a0243
+Fri Jul 11 05:35:25 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-6860a56cfd78
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 05:37:28 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 05:37:30 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 05:37:30 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-2a9c3d949978
+Fri Jul 11 05:37:30 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-19c4400a0243
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 05:39:33 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 05:39:36 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 05:39:36 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-00762cff6b36
+Fri Jul 11 05:39:36 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-2a9c3d949978
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 05:41:38 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 05:41:41 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 05:41:41 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-400a67c30caa
+Fri Jul 11 05:41:41 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-00762cff6b36
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 05:43:44 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 05:43:46 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 05:43:46 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-1334c06babb7
+Fri Jul 11 05:43:46 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-400a67c30caa
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 05:45:49 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 05:45:51 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 05:45:51 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-f55ef97ad61e
+Fri Jul 11 05:45:51 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-1334c06babb7
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 05:47:54 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 05:47:57 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 05:47:57 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-334ee9f5ef0a
+Fri Jul 11 05:47:57 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-f55ef97ad61e
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 05:50:00 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 05:50:02 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 05:50:02 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-b788f0fb38b0
+Fri Jul 11 05:50:02 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-334ee9f5ef0a
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 05:52:05 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 05:52:07 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 05:52:07 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-b029f77ca2ef
+Fri Jul 11 05:52:07 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-b788f0fb38b0
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 05:54:10 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 05:54:13 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 05:54:13 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-4fb07e00cbe2
+Fri Jul 11 05:54:13 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-b029f77ca2ef
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 05:56:16 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 05:56:18 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 05:56:18 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-fcdbe646cd90
+Fri Jul 11 05:56:18 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-4fb07e00cbe2
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 05:58:21 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 05:58:23 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 05:58:23 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-f39c0b439960
+Fri Jul 11 05:58:23 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-fcdbe646cd90
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 06:00:26 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 06:00:29 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 06:00:29 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-0f14a35d44e4
+Fri Jul 11 06:00:29 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-f39c0b439960
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 06:02:32 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 06:02:34 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 06:02:34 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-0c4b302c0b1f
+Fri Jul 11 06:02:34 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-0f14a35d44e4
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 06:04:37 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 06:04:40 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 06:04:40 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-d563aa1089d7
+Fri Jul 11 06:04:40 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-0c4b302c0b1f
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 06:06:42 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 06:06:45 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 06:06:45 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-0d7f779c4922
+Fri Jul 11 06:06:45 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-d563aa1089d7
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 06:08:47 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 06:08:50 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 06:08:50 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-3b4e5678d5af
+Fri Jul 11 06:08:50 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-0d7f779c4922
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 06:10:52 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 06:10:55 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 06:10:55 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-9841d27c03a0
+Fri Jul 11 06:10:55 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-3b4e5678d5af
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 06:12:58 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 06:13:00 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 06:13:00 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-0353087f4870
+Fri Jul 11 06:13:00 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-9841d27c03a0
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 06:15:03 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 06:15:05 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 06:15:05 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-7256c6ee90c8
+Fri Jul 11 06:15:05 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-0353087f4870
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 06:17:08 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 06:17:10 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 06:17:10 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-c6f64398a339
+Fri Jul 11 06:17:10 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-7256c6ee90c8
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 06:19:13 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 06:19:16 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 06:19:16 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-49000e11538d
+Fri Jul 11 06:19:16 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-c6f64398a339
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 06:21:18 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 06:21:21 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 06:21:21 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-1eda0d0f0ac7
+Fri Jul 11 06:21:21 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-49000e11538d
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 06:23:24 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 06:23:26 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 06:23:26 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-c0ff74d4185b
+Fri Jul 11 06:23:26 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-1eda0d0f0ac7
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 06:25:29 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 06:25:31 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 06:25:31 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-c463d7c7bb7f
+Fri Jul 11 06:25:31 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-c0ff74d4185b
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 06:27:35 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 06:27:38 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 06:27:38 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-e636bf60383c
+Fri Jul 11 06:27:38 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-c463d7c7bb7f
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 06:29:41 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 06:29:44 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 06:29:44 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-c450fdfdd616
+Fri Jul 11 06:29:44 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-e636bf60383c
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 06:31:47 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 06:31:49 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 06:31:49 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-2484ef3f7dc1
+Fri Jul 11 06:31:49 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-c450fdfdd616
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 06:33:53 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 06:33:56 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 06:33:56 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-637f560ec6aa
+Fri Jul 11 06:33:56 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-2484ef3f7dc1
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 06:36:01 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 06:36:05 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 06:36:05 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-e9476c10e0d1
+Fri Jul 11 06:36:05 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-637f560ec6aa
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 06:38:07 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 06:38:10 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 06:38:10 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-722e5c1a237d
+Fri Jul 11 06:38:10 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-e9476c10e0d1
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 06:40:13 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 06:40:16 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 06:40:16 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-9b08a5747de6
+Fri Jul 11 06:40:16 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-722e5c1a237d
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 06:42:21 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 06:42:24 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 06:42:24 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-7b0efd1da852
+Fri Jul 11 06:42:24 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-9b08a5747de6
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 06:44:29 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 06:44:35 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 06:44:35 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-9cbecb6e638b
+Fri Jul 11 06:44:35 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-7b0efd1da852
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 06:46:38 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 06:46:41 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 06:46:41 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-f5170027063d
+Fri Jul 11 06:46:41 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-9cbecb6e638b
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 06:48:45 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 06:48:49 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 06:48:49 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-75e8b0d9622a
+Fri Jul 11 06:48:49 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-f5170027063d
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 06:50:52 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 06:50:57 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 06:50:57 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-6eb711091fb0
+Fri Jul 11 06:50:57 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-75e8b0d9622a
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 06:53:00 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 06:53:03 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 06:53:03 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-28ac910b60c4
+Fri Jul 11 06:53:03 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-6eb711091fb0
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 06:55:06 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 06:55:08 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 06:55:08 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-c8545e0a6463
+Fri Jul 11 06:55:08 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-28ac910b60c4
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 06:57:11 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 06:57:14 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 06:57:14 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-8e7e02257518
+Fri Jul 11 06:57:14 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-c8545e0a6463
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 06:59:17 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 06:59:20 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 06:59:20 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-f89a0c8ebc91
+Fri Jul 11 06:59:20 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-8e7e02257518
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 07:01:23 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 07:01:27 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 07:01:27 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-5c38b99502cc
+Fri Jul 11 07:01:27 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-f89a0c8ebc91
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 07:03:29 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 07:03:33 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 07:03:33 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-5fae2f510844
+Fri Jul 11 07:03:33 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-5c38b99502cc
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 07:05:36 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 07:05:39 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 07:05:39 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-d63a6912f6ab
+Fri Jul 11 07:05:39 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-5fae2f510844
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 07:07:46 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 07:07:52 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 07:07:52 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-300ab8597e77
+Fri Jul 11 07:07:52 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-d63a6912f6ab
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 07:09:55 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 07:09:58 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 07:09:58 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-6e113169d982
+Fri Jul 11 07:09:58 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-300ab8597e77
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 07:12:01 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 07:12:04 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 07:12:04 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-13f817f564a4
+Fri Jul 11 07:12:04 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-6e113169d982
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 07:14:07 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 07:14:10 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 07:14:10 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-5cbf018d5be3
+Fri Jul 11 07:14:10 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-13f817f564a4
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 07:16:14 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 07:16:18 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 07:16:18 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-6fbc11dcab77
+Fri Jul 11 07:16:18 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-5cbf018d5be3
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 07:18:21 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 07:18:24 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 07:18:24 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-0a0a6c9e2eef
+Fri Jul 11 07:18:24 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-6fbc11dcab77
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 07:20:27 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 07:20:31 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 07:20:31 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-281cb5eef5ca
+Fri Jul 11 07:20:31 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-0a0a6c9e2eef
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 07:22:34 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 07:22:37 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 07:22:37 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-0800908eebfb
+Fri Jul 11 07:22:37 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-281cb5eef5ca
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 07:24:41 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 07:24:45 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 07:24:45 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-63210da61370
+Fri Jul 11 07:24:45 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-0800908eebfb
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 07:26:48 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 07:26:52 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 07:26:52 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-05de9e06595d
+Fri Jul 11 07:26:52 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-63210da61370
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 07:28:55 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 07:28:58 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 07:28:58 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-b059529cb964
+Fri Jul 11 07:28:58 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-05de9e06595d
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 07:31:01 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 07:31:03 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 07:31:03 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-029321f43721
+Fri Jul 11 07:31:03 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-b059529cb964
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 07:33:07 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 07:33:12 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 07:33:12 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-ac797c06c48a
+Fri Jul 11 07:33:12 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-029321f43721
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 07:35:15 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 07:35:18 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 07:35:18 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-d33b3ee5e27a
+Fri Jul 11 07:35:18 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-ac797c06c48a
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 07:37:21 PM UTC 2025: Triggering savepoint for job e40ac5bc17f59a676ab06c87dee7b3c9...
+Fri Jul 11 07:37:24 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 07:37:24 PM UTC 2025: New savepoint path: /tmp/flink/state/state_sp/savepoint-e40ac5-41cfb6855bbd
+Fri Jul 11 07:37:24 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/state_sp/savepoint-e40ac5-d33b3ee5e27a
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 07:53:51 PM UTC 2025: No running Flink job found, skipping savepoint
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 08:08:54 PM UTC 2025: Triggering savepoint for job d7818f5d1e200b41eca7ef474c0ed763...
+Fri Jul 11 08:08:59 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 08:08:59 PM UTC 2025: New savepoint path: /tmp/flink/state/savepoint-d7818f-22841733cca0
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 08:11:03 PM UTC 2025: Triggering savepoint for job d7818f5d1e200b41eca7ef474c0ed763...
+Fri Jul 11 08:11:07 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 08:11:07 PM UTC 2025: New savepoint path: /tmp/flink/state/savepoint-d7818f-00ea4ec10829
+Fri Jul 11 08:11:07 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/savepoint-d7818f-22841733cca0
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 08:13:10 PM UTC 2025: Triggering savepoint for job d7818f5d1e200b41eca7ef474c0ed763...
+Fri Jul 11 08:13:12 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 08:13:12 PM UTC 2025: New savepoint path: /tmp/flink/state/savepoint-d7818f-41f440c29e18
+Fri Jul 11 08:13:12 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/savepoint-d7818f-00ea4ec10829
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 08:15:16 PM UTC 2025: Triggering savepoint for job d7818f5d1e200b41eca7ef474c0ed763...
+Fri Jul 11 08:15:19 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 08:15:19 PM UTC 2025: New savepoint path: /tmp/flink/state/savepoint-d7818f-138005e1f1bc
+Fri Jul 11 08:15:19 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/savepoint-d7818f-41f440c29e18
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 08:17:22 PM UTC 2025: Triggering savepoint for job d7818f5d1e200b41eca7ef474c0ed763...
+Fri Jul 11 08:17:26 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 08:17:26 PM UTC 2025: New savepoint path: /tmp/flink/state/savepoint-d7818f-c13ad3da18cd
+Fri Jul 11 08:17:26 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/savepoint-d7818f-138005e1f1bc
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 08:19:29 PM UTC 2025: Triggering savepoint for job d7818f5d1e200b41eca7ef474c0ed763...
+Fri Jul 11 08:19:33 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 08:19:33 PM UTC 2025: New savepoint path: /tmp/flink/state/savepoint-d7818f-93efdd764658
+Fri Jul 11 08:19:33 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/savepoint-d7818f-c13ad3da18cd
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 08:21:36 PM UTC 2025: Triggering savepoint for job d7818f5d1e200b41eca7ef474c0ed763...
+Fri Jul 11 08:21:38 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 08:21:38 PM UTC 2025: New savepoint path: /tmp/flink/state/savepoint-d7818f-d83010519198
+Fri Jul 11 08:21:38 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/savepoint-d7818f-93efdd764658
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 08:23:43 PM UTC 2025: Triggering savepoint for job d7818f5d1e200b41eca7ef474c0ed763...
+Fri Jul 11 08:23:46 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 08:23:46 PM UTC 2025: New savepoint path: /tmp/flink/state/savepoint-d7818f-40ae00bb2067
+Fri Jul 11 08:23:46 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/savepoint-d7818f-d83010519198
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 08:25:49 PM UTC 2025: Triggering savepoint for job d7818f5d1e200b41eca7ef474c0ed763...
+Fri Jul 11 08:25:52 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 08:25:52 PM UTC 2025: New savepoint path: /tmp/flink/state/savepoint-d7818f-ca9fba428939
+Fri Jul 11 08:25:52 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/savepoint-d7818f-40ae00bb2067
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 08:27:55 PM UTC 2025: Triggering savepoint for job d7818f5d1e200b41eca7ef474c0ed763...
+Fri Jul 11 08:27:58 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 08:27:58 PM UTC 2025: New savepoint path: /tmp/flink/state/savepoint-d7818f-8c7036070cf8
+Fri Jul 11 08:27:58 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/savepoint-d7818f-ca9fba428939
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 08:30:01 PM UTC 2025: Triggering savepoint for job d7818f5d1e200b41eca7ef474c0ed763...
+Fri Jul 11 08:30:06 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 08:30:06 PM UTC 2025: New savepoint path: /tmp/flink/state/savepoint-d7818f-00be0969056c
+Fri Jul 11 08:30:06 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/savepoint-d7818f-8c7036070cf8
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 08:32:09 PM UTC 2025: Triggering savepoint for job d7818f5d1e200b41eca7ef474c0ed763...
+Fri Jul 11 08:32:12 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 08:32:12 PM UTC 2025: New savepoint path: /tmp/flink/state/savepoint-d7818f-8b0fac0ef514
+Fri Jul 11 08:32:12 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/savepoint-d7818f-00be0969056c
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 08:34:16 PM UTC 2025: Triggering savepoint for job d7818f5d1e200b41eca7ef474c0ed763...
+Fri Jul 11 08:34:19 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 08:34:19 PM UTC 2025: New savepoint path: /tmp/flink/state/savepoint-d7818f-4b29fb6250c7
+Fri Jul 11 08:34:19 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/savepoint-d7818f-8b0fac0ef514
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 08:36:25 PM UTC 2025: Triggering savepoint for job d7818f5d1e200b41eca7ef474c0ed763...
+Fri Jul 11 08:36:30 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 08:36:30 PM UTC 2025: New savepoint path: /tmp/flink/state/savepoint-d7818f-3b0c804570ef
+Fri Jul 11 08:36:30 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/savepoint-d7818f-4b29fb6250c7
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 08:38:34 PM UTC 2025: Triggering savepoint for job d7818f5d1e200b41eca7ef474c0ed763...
+Fri Jul 11 08:38:38 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 08:38:38 PM UTC 2025: New savepoint path: /tmp/flink/state/savepoint-d7818f-27150f3a282e
+Fri Jul 11 08:38:38 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/savepoint-d7818f-3b0c804570ef
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 08:40:41 PM UTC 2025: Triggering savepoint for job d7818f5d1e200b41eca7ef474c0ed763...
+Fri Jul 11 08:40:44 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 08:40:44 PM UTC 2025: New savepoint path: /tmp/flink/state/savepoint-d7818f-2d1f509757fe
+Fri Jul 11 08:40:44 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/savepoint-d7818f-27150f3a282e
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Fri Jul 11 08:42:48 PM UTC 2025: Triggering savepoint for job d7818f5d1e200b41eca7ef474c0ed763...
+Fri Jul 11 08:42:51 PM UTC 2025: Savepoint triggered successfully
+Fri Jul 11 08:42:51 PM UTC 2025: New savepoint path: /tmp/flink/state/savepoint-d7818f-0004606c2ff1
+Fri Jul 11 08:42:51 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/savepoint-d7818f-2d1f509757fe

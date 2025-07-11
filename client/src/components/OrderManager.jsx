@@ -220,7 +220,7 @@ function OrderManager({ billId, changeAllowed, returnAllowed }) {
       width: 100
     },
     {
-      title: 'Returned',
+      title: 'Return',
       dataIndex: 'return',
       align: 'right',
       render: (v, row) => <UpdateOrderEntry k='return' pid={row.pid.id} val={v} onUpdate={onUpdate} display={v => v || 0} disable={!returnAllowed} />,
@@ -237,14 +237,15 @@ function OrderManager({ billId, changeAllowed, returnAllowed }) {
       const effectiveRate = gstExcludedRate - discount;
       const cgst = effectiveRate * (curr.cgst / 100);
       const sgst = effectiveRate * (curr.sgst / 100);
+      const qty = curr.quantity - curr.return;
 
       return {
         ...agg,
-        amount: agg.amount + gstExcludedRate * curr.quantity,
-        sgst: agg.sgst + sgst * curr.quantity,
-        cgst: agg.cgst + cgst * curr.quantity,
-        discount: agg.discount + discount * curr.quantity,
-        payable: agg.payable + (effectiveRate + cgst + sgst) * curr.quantity,
+        amount   : agg.amount + gstExcludedRate * qty,
+        sgst     : agg.sgst + sgst * qty,
+        cgst     : agg.cgst + cgst * qty,
+        discount : agg.discount + discount * qty,
+        payable  : agg.payable + (effectiveRate + cgst + sgst) * qty,
       }
     }, { amount: 0, sgst: 0, cgst: 0, discount: 0, payable: 0 })
   }, [data])

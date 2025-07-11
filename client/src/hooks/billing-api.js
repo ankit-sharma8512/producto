@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { getBills, createBill, getBillDetail, updateBill, deleteBill, getBillOrders, addBillOrder, removeBillOrder, updateBillOrder, updateBillState, processBill } from '../services/billing';
+import { getBills, createBill, getBillDetail, updateBill, deleteBill, getBillOrders, addBillOrder, removeBillOrder, updateBillOrder, updateBillState, processBill, returnBill, addPayment } from '../services/billing';
 
 export function useBillList(query, options) {
   const result = useQuery(['bill', query], () => getBills(query), options);
@@ -7,8 +7,8 @@ export function useBillList(query, options) {
   return result;
 }
 
-export function useBillDetail(id) {
-  const result = useQuery(['bill', id], () => getBillDetail(id), { enabled: Boolean(id) });
+export function useBillDetail(id, opts={}) {
+  const result = useQuery(['bill', id], () => getBillDetail(id), { enabled: Boolean(id), ...opts });
 
   return result;
 }
@@ -98,6 +98,32 @@ export function useProcessBill(id) {
   const queryClient = useQueryClient();
 
   const mutation = useMutation(() => processBill(id), {
+    onSuccess: () => {
+      queryClient.invalidateQueries('bill')
+      queryClient.invalidateQueries(['bill', id])
+    }
+  })
+
+  return mutation
+}
+
+export function useReturnBill(id) {
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation(() => returnBill(id), {
+    onSuccess: () => {
+      queryClient.invalidateQueries('bill')
+      queryClient.invalidateQueries(['bill', id])
+    }
+  })
+
+  return mutation
+}
+
+export function useAddPayment(id) {
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation((body) => addPayment(id, body), {
     onSuccess: () => {
       queryClient.invalidateQueries('bill')
       queryClient.invalidateQueries(['bill', id])

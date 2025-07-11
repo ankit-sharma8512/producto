@@ -14,6 +14,8 @@
     "dev-build" : "docker compose -f docker/compose.dev.yaml build",
     "dev-down"  : "docker compose -f docker/compose.dev.yaml down",
 
+    "job"       : "docker exec -it jobmanager bash -c \"cd /producto/flink && ./run-jobs.sh\"",
+
     "purge"     : "docker volume ls -q | xargs docker volume rm",
     "flink"     : "docker build -t pyflink:latest tools/flink"
   },

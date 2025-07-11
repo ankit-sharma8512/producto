@@ -2,7 +2,7 @@ from pyflink.datastream.connectors.jdbc  import JdbcSink, JdbcConnectionOptions,
 from pyflink.datastream.connectors.kafka import KafkaSink, KafkaRecordSerializationSchema, DeliveryGuarantee
 from pyflink.common.serialization        import SimpleStringSchema
 
-from parsers                             import stock_message_type, lot_message_type, grn_message_type, sale_message_type
+from parsers                             import stock_message_type, lot_message_type, grn_message_type, sale_message_type, return_message_type
 
 import os
 
@@ -75,9 +75,31 @@ grn_sink = JdbcSink.sink(
 sale_sink = JdbcSink.sink(
     '''
         INSERT INTO sale (productid, orderid, date, quantity, rate, cgst, sgst, discount)
-        values (?::uuid, ?, ?::timestamptz, ?, ?, ?, ?, ?);
+        values (?::uuid, ?, ?::timestamptz, ?, ?, ?, ?, ?)
+        ON CONFLICT (productid, orderid)
+        DO NOTHING;
     ''',
     sale_message_type,
+    JdbcConnectionOptions.JdbcConnectionOptionsBuilder()
+        .with_url(f'jdbc:postgresql://{DB_HOST}:5432/{DB_NAME}')
+        .with_user_name(DB_USER)
+        .with_password(DB_PASS)
+        .with_driver_name('org.postgresql.Driver')
+        .build(),
+    JdbcExecutionOptions.builder()
+        .with_batch_interval_ms(1000)
+        .with_batch_size(1)
+        .with_max_retries(10)
+        .build()
+)
+
+return_sink = JdbcSink.sink(
+    '''
+        UPDATE sale
+        SET returned = ?
+        WHERE productid = ?::uuid AND orderid = ?
+    ''',
+    return_message_type,
     JdbcConnectionOptions.JdbcConnectionOptionsBuilder()
         .with_url(f'jdbc:postgresql://{DB_HOST}:5432/{DB_NAME}')
         .with_user_name(DB_USER)

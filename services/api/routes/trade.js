@@ -24,6 +24,8 @@ router.post   ('/order/create',         Trade.createOrder);
 router.put    ('/order/update/:id',     Trade.updateOrder);
 router.delete ('/order/delete/:id',     Trade.deleteOrder);
 router.post   ('/order/process/:id',    Trade.processOrder);
+router.post   ('/order/return/:id',     Trade.executeReturn);
+router.post   ('/order/payment/:id',    Trade.addPayment);
 
 router.get    ("/order/item/:id",      Trade.getOrderItems);
 router.post   ("/order/item/:id",      Trade.addOrderItem);
