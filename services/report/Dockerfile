@@ -5,7 +5,8 @@ ARG NAME=report
 WORKDIR /${PROJECT}
 
 # package.json and installs
-COPY package*.json .
+COPY package*.json ./
+COPY services/${NAME}/package*.json services/${NAME}/
 COPY tools/package*.json tools/
 RUN npm install
 

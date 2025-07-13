@@ -5,9 +5,10 @@ ARG NAME=trade
 WORKDIR /${PROJECT}
 
 # package.json and installs
-COPY package*.json .
+COPY package*.json ./
+COPY services/${NAME}/package*.json services/${NAME}/
+COPY database/tradedb/package*.json database/tradedb/
 COPY tools/package*.json tools/
-COPY database/tradedb/package*.json database/tradedb/package*.json
 RUN npm install
 
 # Primary app files

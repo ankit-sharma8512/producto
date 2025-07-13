@@ -4,3 +4,4 @@ venv/
 __pycache__
 savepoint.log
 savepoint.pid
+dist
