@@ -1745,3 +1745,152 @@ Fri Jul 11 08:42:48 PM UTC 2025: Triggering savepoint for job d7818f5d1e200b41ec
 Fri Jul 11 08:42:51 PM UTC 2025: Savepoint triggered successfully
 Fri Jul 11 08:42:51 PM UTC 2025: New savepoint path: /tmp/flink/state/savepoint-d7818f-0004606c2ff1
 Fri Jul 11 08:42:51 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/savepoint-d7818f-2d1f509757fe
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Sun Jul 13 01:03:52 PM UTC 2025: Triggering savepoint for job dc109baf5f955b4089e0953cde52913c...
+Sun Jul 13 01:03:57 PM UTC 2025: Savepoint failed or incomplete:
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Triggering savepoint for job dc109baf5f955b4089e0953cde52913c.
+Waiting for response...
+
+------------------------------------------------------------
+ The program finished with the following exception:
+
+org.apache.flink.util.FlinkException: Triggering a savepoint for the job dc109baf5f955b4089e0953cde52913c failed.
+	at org.apache.flink.client.cli.CliFrontend.triggerSavepoint(CliFrontend.java:815)
+	at org.apache.flink.client.cli.CliFrontend.lambda$savepoint$8(CliFrontend.java:783)
+	at org.apache.flink.client.cli.CliFrontend.runClusterAction(CliFrontend.java:1041)
+	at org.apache.flink.client.cli.CliFrontend.savepoint(CliFrontend.java:779)
+	at org.apache.flink.client.cli.CliFrontend.parseAndRun(CliFrontend.java:1113)
+	at org.apache.flink.client.cli.CliFrontend.lambda$mainInternal$9(CliFrontend.java:1189)
+	at org.apache.flink.runtime.security.contexts.NoOpSecurityContext.runSecured(NoOpSecurityContext.java:28)
+	at org.apache.flink.client.cli.CliFrontend.mainInternal(CliFrontend.java:1189)
+	at org.apache.flink.client.cli.CliFrontend.main(CliFrontend.java:1157)
+Caused by: java.util.concurrent.CompletionException: java.util.concurrent.CompletionException: org.apache.flink.runtime.checkpoint.CheckpointException: Checkpoint triggering task Source: Custom Source -> PROCESS -> (Map -> Sink: Print to Std. Out, Map, _stream_key_by_map_operator) (1/1) of job dc109baf5f955b4089e0953cde52913c is not being executed at the moment. Aborting checkpoint. Failure reason: Not all required tasks are currently running.
+	at java.base/java.util.concurrent.CompletableFuture.encodeRelay(Unknown Source)
+	at java.base/java.util.concurrent.CompletableFuture.completeRelay(Unknown Source)
+	at java.base/java.util.concurrent.CompletableFuture$UniRelay.tryFire(Unknown Source)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(Unknown Source)
+	at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(Unknown Source)
+	at org.apache.flink.runtime.rpc.pekko.PekkoInvocationHandler.lambda$invokeRpc$1(PekkoInvocationHandler.java:261)
+	at java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(Unknown Source)
+	at java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(Unknown Source)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(Unknown Source)
+	at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(Unknown Source)
+	at org.apache.flink.util.concurrent.FutureUtils.doForward(FutureUtils.java:1265)
+	at org.apache.flink.runtime.concurrent.ClassLoadingUtils.lambda$null$1(ClassLoadingUtils.java:93)
+	at org.apache.flink.runtime.concurrent.ClassLoadingUtils.runWithContextClassLoader(ClassLoadingUtils.java:68)
+	at org.apache.flink.runtime.concurrent.ClassLoadingUtils.lambda$guardCompletionWithContextClassLoader$2(ClassLoadingUtils.java:92)
+	at java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(Unknown Source)
+	at java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(Unknown Source)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(Unknown Source)
+	at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(Unknown Source)
+	at org.apache.flink.runtime.concurrent.pekko.ScalaFutureUtils$1.onComplete(ScalaFutureUtils.java:45)
+	at org.apache.pekko.dispatch.OnComplete.internal(Future.scala:309)
+	at org.apache.pekko.dispatch.OnComplete.internal(Future.scala:307)
+	at org.apache.pekko.dispatch.japi$CallbackBridge.apply(Future.scala:234)
+	at org.apache.pekko.dispatch.japi$CallbackBridge.apply(Future.scala:231)
+	at scala.concurrent.impl.CallbackRunnable.run(Promise.scala:64)
+	at org.apache.flink.runtime.concurrent.pekko.ScalaFutureUtils$DirectExecutionContext.execute(ScalaFutureUtils.java:65)
+	at scala.concurrent.impl.CallbackRunnable.executeWithValue(Promise.scala:72)
+	at scala.concurrent.impl.Promise$DefaultPromise.$anonfun$tryComplete$1(Promise.scala:288)
+	at scala.concurrent.impl.Promise$DefaultPromise.$anonfun$tryComplete$1$adapted(Promise.scala:288)
+	at scala.concurrent.impl.Promise$DefaultPromise.tryComplete(Promise.scala:288)
+	at org.apache.pekko.pattern.PromiseActorRef.$bang(AskSupport.scala:629)
+	at org.apache.pekko.pattern.PipeToSupport$PipeableFuture$$anonfun$pipeTo$1.applyOrElse(PipeToSupport.scala:35)
+	at org.apache.pekko.pattern.PipeToSupport$PipeableFuture$$anonfun$pipeTo$1.applyOrElse(PipeToSupport.scala:33)
+	at scala.concurrent.Future.$anonfun$andThen$1(Future.scala:536)
+	at scala.concurrent.impl.Promise.liftedTree1$1(Promise.scala:33)
+	at scala.concurrent.impl.Promise.$anonfun$transform$1(Promise.scala:33)
+	at scala.concurrent.impl.CallbackRunnable.run(Promise.scala:64)
+	at org.apache.pekko.dispatch.BatchingExecutor$AbstractBatch.processBatch(BatchingExecutor.scala:73)
+	at org.apache.pekko.dispatch.BatchingExecutor$BlockableBatch.$anonfun$run$1(BatchingExecutor.scala:110)
+	at scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.java:23)
+	at scala.concurrent.BlockContext$.withBlockContext(BlockContext.scala:85)
+	at org.apache.pekko.dispatch.BatchingExecutor$BlockableBatch.run(BatchingExecutor.scala:110)
+	at org.apache.pekko.dispatch.TaskInvocation.run(AbstractDispatcher.scala:59)
+	at org.apache.pekko.dispatch.ForkJoinExecutorConfigurator$PekkoForkJoinTask.exec(ForkJoinExecutorConfigurator.scala:57)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(Unknown Source)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(Unknown Source)
+	at java.base/java.util.concurrent.ForkJoinPool.scan(Unknown Source)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(Unknown Source)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(Unknown Source)
+Caused by: org.apache.flink.runtime.checkpoint.CheckpointException: org.apache.flink.runtime.checkpoint.CheckpointException: Checkpoint triggering task Source: Custom Source -> PROCESS -> (Map -> Sink: Print to Std. Out, Map, _stream_key_by_map_operator) (1/1) of job dc109baf5f955b4089e0953cde52913c is not being executed at the moment. Aborting checkpoint. Failure reason: Not all required tasks are currently running.
+	at org.apache.flink.runtime.checkpoint.DefaultCheckpointPlanCalculator.checkTasksStarted(DefaultCheckpointPlanCalculator.java:143)
+	at org.apache.flink.runtime.checkpoint.DefaultCheckpointPlanCalculator.lambda$calculateCheckpointPlan$1(DefaultCheckpointPlanCalculator.java:105)
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(Unknown Source)
+	at org.apache.flink.runtime.rpc.pekko.PekkoRpcActor.lambda$handleRunAsync$4(PekkoRpcActor.java:451)
+	at org.apache.flink.runtime.concurrent.ClassLoadingUtils.runWithContextClassLoader(ClassLoadingUtils.java:68)
+	at org.apache.flink.runtime.rpc.pekko.PekkoRpcActor.handleRunAsync(PekkoRpcActor.java:451)
+	at org.apache.flink.runtime.rpc.pekko.PekkoRpcActor.handleRpcMessage(PekkoRpcActor.java:218)
+	at org.apache.flink.runtime.rpc.pekko.FencedPekkoRpcActor.handleRpcMessage(FencedPekkoRpcActor.java:85)
+	at org.apache.flink.runtime.rpc.pekko.PekkoRpcActor.handleMessage(PekkoRpcActor.java:168)
+	at org.apache.pekko.japi.pf.UnitCaseStatement.apply(CaseStatements.scala:33)
+	at org.apache.pekko.japi.pf.UnitCaseStatement.apply(CaseStatements.scala:29)
+	at scala.PartialFunction.applyOrElse(PartialFunction.scala:127)
+	at scala.PartialFunction.applyOrElse$(PartialFunction.scala:126)
+	at org.apache.pekko.japi.pf.UnitCaseStatement.applyOrElse(CaseStatements.scala:29)
+	at scala.PartialFunction$OrElse.applyOrElse(PartialFunction.scala:175)
+	at scala.PartialFunction$OrElse.applyOrElse(PartialFunction.scala:176)
+	at scala.PartialFunction$OrElse.applyOrElse(PartialFunction.scala:176)
+	at org.apache.pekko.actor.Actor.aroundReceive(Actor.scala:547)
+	at org.apache.pekko.actor.Actor.aroundReceive$(Actor.scala:545)
+	at org.apache.pekko.actor.AbstractActor.aroundReceive(AbstractActor.scala:229)
+	at org.apache.pekko.actor.ActorCell.receiveMessage(ActorCell.scala:590)
+	at org.apache.pekko.actor.ActorCell.invoke(ActorCell.scala:557)
+	at org.apache.pekko.dispatch.Mailbox.processMailbox(Mailbox.scala:280)
+	at org.apache.pekko.dispatch.Mailbox.run(Mailbox.scala:241)
+	at org.apache.pekko.dispatch.Mailbox.exec(Mailbox.scala:253)
+	... 5 more
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Sun Jul 13 01:06:00 PM UTC 2025: Triggering savepoint for job dc109baf5f955b4089e0953cde52913c...
+Sun Jul 13 01:06:03 PM UTC 2025: Savepoint triggered successfully
+Sun Jul 13 01:06:03 PM UTC 2025: New savepoint path: /tmp/flink/state/savepoint-dc109b-a1323959379b
+Sun Jul 13 01:06:03 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/savepoint-d7818f-0004606c2ff1
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Sun Jul 13 01:08:06 PM UTC 2025: Triggering savepoint for job dc109baf5f955b4089e0953cde52913c...
+Sun Jul 13 01:08:08 PM UTC 2025: Savepoint triggered successfully
+Sun Jul 13 01:08:08 PM UTC 2025: New savepoint path: /tmp/flink/state/savepoint-dc109b-2e5fe63639c8
+Sun Jul 13 01:08:08 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/savepoint-dc109b-a1323959379b
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Sun Jul 13 01:10:11 PM UTC 2025: Triggering savepoint for job dc109baf5f955b4089e0953cde52913c...
+Sun Jul 13 01:10:14 PM UTC 2025: Savepoint triggered successfully
+Sun Jul 13 01:10:14 PM UTC 2025: New savepoint path: /tmp/flink/state/savepoint-dc109b-e58db61e0d03
+Sun Jul 13 01:10:14 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/savepoint-dc109b-2e5fe63639c8
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Sun Jul 13 01:12:17 PM UTC 2025: Triggering savepoint for job dc109baf5f955b4089e0953cde52913c...
+Sun Jul 13 01:12:21 PM UTC 2025: Savepoint triggered successfully
+Sun Jul 13 01:12:21 PM UTC 2025: New savepoint path: /tmp/flink/state/savepoint-dc109b-fd4c203263ab
+Sun Jul 13 01:12:21 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/savepoint-dc109b-e58db61e0d03
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+WARNING: Unknown module: jdk.compiler specified to --add-exports
+Sun Jul 13 01:14:24 PM UTC 2025: Triggering savepoint for job dc109baf5f955b4089e0953cde52913c...
+Sun Jul 13 01:14:27 PM UTC 2025: Savepoint triggered successfully
+Sun Jul 13 01:14:27 PM UTC 2025: New savepoint path: /tmp/flink/state/savepoint-dc109b-10b1306fb461
+Sun Jul 13 01:14:27 PM UTC 2025: Deleting previous savepoint at /tmp/flink/state/savepoint-dc109b-fd4c203263ab

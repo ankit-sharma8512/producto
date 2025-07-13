@@ -2,24 +2,25 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useAddPayment, useBillDetail, useDeleteBill, useProcessBill, useReturnBill } from "../../hooks/billing-api";
 import { Alert, App, Button, Card, Flex, InputNumber, Popconfirm, Space, Spin, Typography } from "antd";
 import moment from "moment";
-import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
+import { DeleteOutlined, DownloadOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import BuyerDetail from "../../components/BuyerDetail";
 import OrderManager from "../../components/OrderManager";
 import { useEffect, useState } from "react";
+import { useBillPDF } from "../../hooks/pdf-api";
 
 const { Title, Text } = Typography;
 
 function Payment({ payment, id }) {
     const [amt, setAmt] = useState(null);
-    const { message }   = App.useApp();
-    const addPayment    = useAddPayment(id)
+    const { message } = App.useApp();
+    const addPayment = useAddPayment(id)
 
     async function add() {
         if (!amt)
             return
 
         try {
-            await addPayment.mutateAsync({amount: amt});
+            await addPayment.mutateAsync({ amount: amt });
             setAmt(null)
             message.success('Payment Added successfully')
         }
@@ -45,17 +46,18 @@ function Payment({ payment, id }) {
 }
 
 function OrderDetail() {
-    const { id }                       = useParams();
-    const navigate                     = useNavigate();
-    const [ poll, setPoll ]            = useState(false)
-    const { data, isLoading, isError } = useBillDetail(id, { refetchInterval : (poll ?? false)});
-    const deleteBill                   = useDeleteBill()
-    const { message }                  = App.useApp()
-    const processBill                  = useProcessBill(id);
-    const returnBill                   = useReturnBill(id);
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const [poll, setPoll] = useState(false)
+    const { data, isLoading, isError } = useBillDetail(id, { refetchInterval: (poll ?? false) });
+    const { refetch: fetchBill, isFetching: isPdfFetching } = useBillPDF(id, { enabled: false })
+    const deleteBill = useDeleteBill()
+    const { message } = App.useApp()
+    const processBill = useProcessBill(id);
+    const returnBill = useReturnBill(id);
 
     useEffect(() => {
-        if(data?.state === 'PROCESSING')
+        if (data?.state === 'PROCESSING')
             setPoll(3000);
         else
             setPoll(null);
@@ -91,6 +93,27 @@ function OrderDetail() {
         }
     }
 
+    async function downloadBillPdf() {
+        try {
+            const { data: file } = await fetchBill()
+
+            const href = URL.createObjectURL(file);
+
+            const link = document.createElement('a');
+            link.href = href;
+            link.setAttribute('download', `Tax-Invoice-${data?.billNo}.pdf`);
+            document.body.appendChild(link);
+            link.click();
+
+            document.body.removeChild(link);
+            URL.revokeObjectURL(href);
+        }
+        catch (err) {
+            console.error(err)
+            message.error('Failed to download bill pdf')
+        }
+    }
+
     if (isLoading)
         return <Spin />;
 
@@ -109,7 +132,7 @@ function OrderDetail() {
                 <Space size='large'>
                     <Text style={{ fontSize: '1.2rem' }}>{data.state.toUpperCase()} {data.return && '| RETURNED'}</Text>
                     <Link to={'/order/update/' + id}>
-                        <Button icon={<EditOutlined />} disabled={!(data.state === 'DRAFT' || data.state === 'REJECTED')}/>
+                        <Button icon={<EditOutlined />} disabled={!(data.state === 'DRAFT' || data.state === 'REJECTED')} />
                     </Link>
                     <Popconfirm title='Are you sure?' placement='bottomLeft' onConfirm={() => deleteB(id)}>
                         <Button icon={<DeleteOutlined />} danger disabled={!(data.state === 'DRAFT' || data.state === 'REJECTED')} />
@@ -118,11 +141,11 @@ function OrderDetail() {
             </Flex>
             <BuyerDetail buyer={buyer} />
             {!(data.state === 'DRAFT' || data.state === 'REJECTED') && <Payment payment={data?.payment} id={id} />}
-            <Flex justify='space-between' style={{ marginBottom: 10 }}>
+            <Flex justify='flex-end' style={{ marginBottom: 10 }}>
                 {/* <Title level={4}>Orders</Title> */}
                 <Space>
-                {/* <Button icon={<DownloadOutlined />} onClick={downloadBillPdf} loading={isPdfFetching}>Bill PDF</Button>
-                <Button icon={<DownloadOutlined />} onClick={downloadRecieveNote} loading={isNoteFetching}>Delivery Note</Button> */}
+                    <Button icon={<DownloadOutlined />} onClick={downloadBillPdf} loading={isPdfFetching}>Bill PDF</Button>
+                {/* <Button icon={<DownloadOutlined />} onClick={downloadRecieveNote} loading={isNoteFetching}>Delivery Note</Button> */}
                     {
                         (data.state === 'DRAFT' || data.state === 'REJECTED') &&
                         <Popconfirm onConfirm={processB} title="Are you sure" description='This will subtract order quantity from current stock'>
@@ -137,7 +160,12 @@ function OrderDetail() {
                     }
                 </Space>
             </Flex>
-            <OrderManager billId={id} changeAllowed={(data.state === 'DRAFT' || data.state === 'REJECTED')} returnAllowed={data.state === 'PROCESSED' && !data.return} />
+            <OrderManager
+                billId={id}
+                changeAllowed={(data.state === 'DRAFT' || data.state === 'REJECTED')}
+                returnAllowed={data.state === 'PROCESSED' && !data.return}
+                showReturn={data.state === 'PROCESSED'}
+            />
         </>
     )
 }

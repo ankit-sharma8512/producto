@@ -17,7 +17,6 @@ COPY services/${NAME} services/${NAME}
 COPY tools/zookeeper tools/zookeeper
 COPY tools/config    tools/config
 COPY tools/kafka     tools/kafka
-COPY tools/config    tools/config
 
 # Required DB
 COPY database/tradedb database/tradedb

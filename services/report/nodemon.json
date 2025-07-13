@@ -1,0 +1,10 @@
+{
+  "watch": [
+    ".",
+    "../../tools",
+    "../../database"
+  ],
+  "ext": "js,json",
+  "exec": "node index.js",
+  "ignore" : ["../../tools/flink/venv"]
+}

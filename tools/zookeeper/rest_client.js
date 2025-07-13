@@ -22,6 +22,10 @@ class RestClient {
         throw new Error("No service instance available");
     }
 
+    getUrl(url) {
+        return `${this.getHost()}${url}`;
+    }
+
     async get(url) {
         try {
             const res = await this.#client.get(`${this.getHost()}${url}`, { timeout: 5000 });

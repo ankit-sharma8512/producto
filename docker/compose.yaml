@@ -69,6 +69,26 @@ services:
       - ZOOKEEPER_NODE=/service/trade
       - KAFKA_SEED_BROKER=${KAFKA_SEED_BROKER:?}
       - TRADE_DB_URL=mongodb://tradedb:27017/trade
+
+  report:
+    container_name: report
+    build:
+      context: ../
+      dockerfile: services/report/Dockerfile
+    networks:
+      - producto
+    environment:
+      - SERVICE=report
+      - HOST=report
+      - PORT=8000
+      - ZOOKEEPER_HOST=${ZOOKEEPER_HOST:?}
+      - ZOOKEEPER_NODE=/service/report
+      # - KAFKA_SEED_BROKER=${KAFKA_SEED_BROKER:?}
+      - TRADE_DB_URL=mongodb://tradedb:27017/trade
+      - DB_HOST=${PRODUCT_DB_HOST:?}
+      - DB_USER=${PRODUCT_DB_USER:?}
+      - DB_PASSWORD=${PRODUCT_DB_PASSWORD:?}
+      - DB_NAME=${PRODUCT_DB_NAME:?}
     ports:
       - "8000:8000"
 

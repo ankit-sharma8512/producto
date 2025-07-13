@@ -2,7 +2,7 @@ import { useMutation, useQuery } from "react-query";
 import { downloadPDF } from "../services/pdf";
 
 export function useBillPDF(_id, options = {}) {
-  const result = useQuery(['billpdf', _id], () => downloadPDF('/bill/pdf/' + _id), options)
+  const result = useQuery(['billpdf', _id], () => downloadPDF('/bill/' + _id), options)
   return result
 }
 

@@ -9,6 +9,7 @@ const ServiceManager = require("../../tools/zookeeper/service_manager");
 const registerModels = require("../../database/tradedb/connection/register");
 const order          = require("./controller/order")
 
+let znode;
 const CONFIG_PATH      = '/producto/services/trade/config.json';
 const TRANSACTIONAL_ID = 'trade-service:stock-updates:0';
 const CLIENT_ID        = 'trade-service'

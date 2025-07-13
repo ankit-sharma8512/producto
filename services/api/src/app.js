@@ -6,6 +6,7 @@ const productRouter = require("../routes/product");
 const tradeRouter   = require("../routes/trade");
 const grnRouter     = require("../routes/grn");
 const traderRouter  = require("../routes/trader");
+const reportRouter  = require("../routes/report");
 
 class Application {
     #app;
@@ -21,6 +22,7 @@ class Application {
         this.#app.use('/trade',   tradeRouter);
         this.#app.use('/grn',     grnRouter);
         this.#app.use('/trader',  traderRouter);
+        this.#app.use('/report',  reportRouter);
     }
 
     start(port) {

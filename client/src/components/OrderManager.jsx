@@ -116,7 +116,7 @@ function UpdateOrderEntry({ val, onUpdate, display = v => v, validation, msg, di
   );
 }
 
-function OrderManager({ billId, changeAllowed, returnAllowed }) {
+function OrderManager({ billId, changeAllowed, returnAllowed, showReturn }) {
   const { data:items, isLoading, isError } = useBillOrders(billId);
   const addOrder                           = useAddBillOrder(billId);
   const removeOrder                        = useRemoveBillOrder(billId);
@@ -225,7 +225,7 @@ function OrderManager({ billId, changeAllowed, returnAllowed }) {
       align: 'right',
       render: (v, row) => <UpdateOrderEntry k='return' pid={row.pid.id} val={v} onUpdate={onUpdate} display={v => v || 0} disable={!returnAllowed} />,
       width: 110,
-      hidden: !returnAllowed
+      hidden: !(returnAllowed || showReturn)
     },
   ];
 

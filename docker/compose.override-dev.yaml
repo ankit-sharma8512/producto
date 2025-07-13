@@ -31,3 +31,12 @@ services:
       - ../database:/producto/database
       - ../node_modules:/producto/node_modules
       - ../products.json:/producto/products.json
+
+  report:
+    command: ["npm", "run", "dev"]
+    volumes:
+      - ../services/report:/producto/services/report
+      - ../tools:/producto/tools
+      - ../database:/producto/database
+      - ../node_modules:/producto/node_modules
+      - ../products.json:/producto/products.json

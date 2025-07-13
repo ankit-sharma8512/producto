@@ -12,6 +12,10 @@ const SERVICES    = [
         key   : 'trade',
         znode : '/service/trade'
     },
+    {
+        key   : 'report',
+        znode : '/service/report'
+    },
 ]
 
 async function main() {
